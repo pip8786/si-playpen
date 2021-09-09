@@ -15,7 +15,7 @@ const Embed: NextPage = () => {
 
             <main className={styles.main}>
                 <sas-report-object
-                    packageUri="https://app.gatheriq.analytics/datastory/education"
+                    packageUri="https://gatheriq-next-test.itk8s-int.openstack.sas.com/datastory/education"
                     objectName="ve1100"
                     styles={{height: 600}}
                 ></sas-report-object>
