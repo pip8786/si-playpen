@@ -12,7 +12,7 @@ const Involved: NextPage = () => {
             </Head>
 
             <main className={styles.main}>
-                <div className="involveme_embed" data-project="cheesequiz">
+                <div className="involveme_embed" data-project="cheesequiz" data-embed-mode="fullscreen">
                     <Script src="https://sas-zpqhq.involve.me/embed"/>
                 </div>
             </main>
