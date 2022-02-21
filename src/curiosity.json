@@ -1,0 +1,23 @@
+{
+  "title": "CURIOSITY AT WORK QUIZ",
+  "subtitle": "HOW DO YOU SHOW CURIOSITY IN THE WORKPLACE?",
+  "questions": [
+    {
+      "title": "INVESTIGATION",
+      "answers": [
+        {
+          "text": "I tend to put up with issues longer than I should.",
+          "value": 1
+        },
+        {
+          "text": "If I encounter a problem, I look into a solution.",
+          "value": 2
+        },
+        {
+          "text": "I’m always investigating, even if there’s nothing wrong.",
+          "value": 3
+        }
+      ]
+    }
+  ]
+}

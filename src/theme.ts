@@ -22,8 +22,7 @@ const theme = createTheme({
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    backgroundAttachment: 'fixed',
-                    height: '100vh'
+                    backgroundAttachment: 'fixed'
                 }
             }
         }

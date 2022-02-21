@@ -6,8 +6,10 @@ import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 import GirlMagnify from '../public/images/girl_magnify.png';
 import {Button, Stack} from "@mui/material";
+import Quiz from "../src/curiosity.json";
 
-const Home: NextPage = () => {
+const QuizPage: NextPage = () => {
+    const currentQuestion = Quiz.questions[0];
     return (
         <Container maxWidth="md"
                    sx={{
@@ -18,8 +20,8 @@ const Home: NextPage = () => {
                         alignItems: 'center',
                     }}
         >
-            <Typography variant="h2" component="h1">CURIOSITY AT WORK QUIZ</Typography>
-            <Typography variant="h4" component="h2">HOW DO YOU SHOW CURIOSITY IN THE WORKPLACE?</Typography>
+            <Typography variant="h2" component="h1">{Quiz.title}</Typography>
+            <Typography variant="h4" component="h2">{Quiz.subtitle}</Typography>
             <Paper
                 elevation={3}
                 sx={{
@@ -27,11 +29,12 @@ const Home: NextPage = () => {
                 }}
             >
                 <Image src={GirlMagnify} alt="Girl with Magnifying Glass"/>
-                <Typography variant="h6">INVESTIGATION</Typography>
+                <Typography variant="h6">{currentQuestion.title}</Typography>
                 <Stack alignItems="stretch" spacing={2}>
-                    <Button variant="contained">I tend to put up with issues longer than I should.</Button>
-                    <Button variant="contained">If I encounter a problem, I look into a solution.</Button>
-                    <Button variant="contained">I’m always investigating, even if there’s nothing wrong.</Button>
+                    {currentQuestion.answers.map(a => (
+                        <Button variant="contained" key={a.text}>{a.text}</Button>
+                    ))
+                    }
                 </Stack>
 
             </Paper>
@@ -39,4 +42,4 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+export default QuizPage;
