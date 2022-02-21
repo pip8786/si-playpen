@@ -14,6 +14,20 @@ const theme = createTheme({
             main: red.A400,
         },
     },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body:{
+                    background: 'url(/images/background.jpeg)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    height: '100vh'
+                }
+            }
+        }
+    }
 });
 
 export default theme;
