@@ -1,9 +1,9 @@
 {
-  "title": "CURIOSITY AT WORK QUIZ",
-  "subtitle": "HOW DO YOU SHOW CURIOSITY IN THE WORKPLACE?",
+  "title": "Curiosity at Work Quiz",
+  "subtitle": "How do you show curiosity in the workplace?",
   "questions": [
     {
-      "title": "INVESTIGATION",
+      "title": "Investigation",
       "answers": [
         {
           "text": "I tend to put up with issues longer than I should.",
@@ -15,6 +15,74 @@
         },
         {
           "text": "I’m always investigating, even if there’s nothing wrong.",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "title": "Routine",
+      "answers": [
+        {
+          "text": "Repetition makes my days go smoother.",
+          "value": 1
+        },
+        {
+          "text": "I need to have some changes day-to-day.",
+          "value": 2
+        },
+        {
+          "text": "I always want to be doing something new.",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "title": "Asking Questions",
+      "answers": [
+        {
+          "text": "I try not to ask too many questions.",
+          "value": 1
+        },
+        {
+          "text": "I ask questions when there’s something I want or need to know more about.",
+          "value": 2
+        },
+        {
+          "text": "I ask a lot of questions – you never know what you might learn.",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "answers": [
+        {
+          "text": "I generally do things the best way.",
+          "value": 1
+        },
+        {
+          "text": "I am confident in my approach but can learn from others.",
+          "value": 2
+        },
+        {
+          "text": "I think there’s always something new I can learn from others’ approaches.",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "title": "Skills",
+      "answers": [
+        {
+          "text": "My current skill set meets my career needs.",
+          "value": 1
+        },
+        {
+          "text": "There are a few areas I need to continue to grow in.",
+          "value": 2
+        },
+        {
+          "text": "I frequently seek out additional training and credentials.",
           "value": 3
         }
       ]
