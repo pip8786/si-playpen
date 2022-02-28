@@ -87,5 +87,27 @@
         }
       ]
     }
+  ],
+  "results": [
+    {
+      "min": 0,
+      "max": 7,
+      "text": "Low: It's time to channel your inner toddler and ask ‘WHY?’ more often. Branch out and experience something new – ask questions, listen to new perspectives, think outside the box. Challenge yourself to step outside your comfort zone more often. Your career success might depend on it. Start today!"
+    },
+    {
+      "min": 8,
+      "max": 10,
+      "text": "Average: Your sense of curiosity is predictable and calculated. You might be pleasantly surprised at the doors that open if you take more chances – actively seek out knowledge and experiences that you wouldn’t normally attempt. You might have fun and boost your career success in the process."
+    },
+    {
+      "min": 11,
+      "max": 13,
+      "text": "High: You’re highly inquisitive and tend to embrace change. Your curious nature is going to pay off in your career as well as the rest of your life. Keep pushing boundaries, don’t be afraid to fail, and challenge those around you to do the same. Life’s about the journey and your sense of wonder will take you down some amazing paths."
+    },
+    {
+      "min": 14,
+      "max": 15,
+      "text": "Exceptional: Your curiosity level is off the charts. Are you sure you’re not a cat? Props to you for constantly seeking knowledge and adventure. Be sure to channel your own curiosity to maximize productivity in the workplace. You might want to consider offering advice to others on ways to enhance their inherent sense of wonder."
+    }
   ]
 }

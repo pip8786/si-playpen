@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -8,7 +8,10 @@ export type GaugeProps = {
 }
 
 export default function Gauge({level,max}:GaugeProps) {
-	const degrees = level / max * 180;
+	const [degrees, setDegrees] = useState(0);
+	useEffect(() => {
+		setDegrees(level / max * 180);
+	},[level, max]);
 	return (
 		<Box sx={{
 			display: "flex",
@@ -37,6 +40,7 @@ export default function Gauge({level,max}:GaugeProps) {
 					height: 70,
 					transformOrigin: "140px 40px",
 					transform: `rotate(${degrees}deg)`,
+					transition: "transform 1s 250ms",
 					bottom: -20,
 					left: 85
 				}}/>

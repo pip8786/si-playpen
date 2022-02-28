@@ -11,10 +11,17 @@ type Question = {
 	answers: Answer[]
 }
 
+type Result = {
+	text: string
+	min: number
+	max: number
+}
+
 type Quiz = {
 	title: string
 	subtitle: string
 	questions: Question[]
+	results: Result[]
 }
 
 type ContextProps = {

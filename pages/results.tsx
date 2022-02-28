@@ -16,6 +16,7 @@ const Results: NextPage = () => {
 
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
     const totalAnswered = answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
+    const result = quiz.results.find(r => r.min < totalAnswered && r.max > totalAnswered);
     return (
         <Container maxWidth="md"
                    sx={{
@@ -36,6 +37,7 @@ const Results: NextPage = () => {
                 }}
             >
                 <Gauge level={totalAnswered} max={totalPossible}/>
+                <Typography>{result.text}</Typography>
             </Paper>
         </Container>
     )
