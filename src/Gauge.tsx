@@ -5,13 +5,14 @@ import Typography from "@mui/material/Typography";
 export type GaugeProps = {
 	level: number
 	max: number
+	min?:  number
 }
 
-export default function Gauge({level,max}:GaugeProps) {
+export default function Gauge({level,max, min=0}:GaugeProps) {
 	const [degrees, setDegrees] = useState(0);
 	useEffect(() => {
-		setDegrees(level / max * 180);
-	},[level, max]);
+		setDegrees((level-min) / (max-min) * 180);
+	},[level, max, min]);
 	return (
 		<Box sx={{
 			display: "flex",
@@ -27,7 +28,7 @@ export default function Gauge({level,max}:GaugeProps) {
 				width: 450,
 				height: 245
 			}}>
-				<img src="/images/gauge.svg" alt={`4 part gauge showing a min of 0 and max of ${max}`} style={{
+				<img src="/images/gauge.svg" alt={`4 part gauge showing a min of ${min} and max of ${max}`} style={{
 					position: "absolute",
 					top: 0,
 					bottom: 0,
