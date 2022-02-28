@@ -1,10 +1,6 @@
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Image from "next/image";
-import GirlMagnify from "../public/images/girl_magnify.png";
-import {Button, Stack} from "@mui/material";
 import Container from "@mui/material/Container";
 import * as React from "react";
 import {useContext} from "react";
@@ -37,7 +33,7 @@ const Results: NextPage = () => {
                 }}
             >
                 <Gauge level={totalAnswered} max={totalPossible}/>
-                <Typography>{result.text}</Typography>
+                {result && <Typography>{result.text}</Typography>}
             </Paper>
         </Container>
     )
