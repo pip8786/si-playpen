@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Experience {
+  id          Int              @id @default(autoincrement())
+  name        String
+  subtitle    String
+  shortcode   String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @default(now())
+  publishedAt DateTime?
+  status      ExperienceStatus
+  type        ExperienceType
+  quiz        Quiz?
+}
+
+enum ExperienceStatus {
+  Pending
+  Published
+  Disabled
+  Retired
+}
+
+enum ExperienceType {
+  Quiz
+}
+
+model Quiz {
+  id           Int        @id @default(autoincrement())
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId Int        @unique
+  questions    Question[]
+  results      Results[]
+}
+
+model Question {
+  id      Int      @id @default(autoincrement())
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+  quizId  Int
+  text    String
+  answers Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  text       String
+  value      Int
+}
+
+model Results {
+  id     Int    @id @default(autoincrement())
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quizId Int
+  min    Int
+  max    Int
+  text   String
+}
