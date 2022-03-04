@@ -14,7 +14,7 @@ model Experience {
   id          Int              @id @default(autoincrement())
   name        String
   subtitle    String
-  shortcode   String
+  shortcode   String           @unique
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @default(now())
   publishedAt DateTime?
@@ -39,7 +39,8 @@ model Quiz {
   experience   Experience @relation(fields: [experienceId], references: [id])
   experienceId Int        @unique
   questions    Question[]
-  results      Results[]
+  results      QuizResult[]
+  userAnswers  QuizUserAnswers[]
 }
 
 model Question {
@@ -58,11 +59,18 @@ model Answer {
   value      Int
 }
 
-model Results {
+model QuizResult {
   id     Int    @id @default(autoincrement())
   quiz   Quiz   @relation(fields: [quizId], references: [id])
   quizId Int
   min    Int
   max    Int
   text   String
+}
+
+model QuizUserAnswers {
+  id Int @id @default(autoincrement())
+  quiz Quiz @relation(fields: [quizId], references: [id])
+  quizId Int
+  answers Int[]
 }
