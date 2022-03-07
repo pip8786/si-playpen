@@ -4,15 +4,17 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import * as React from "react";
 import {useContext} from "react";
-import {QuizContext} from "../src/QuizContext";
-import Gauge from "../src/Gauge";
+import {QuizContext} from "src/context/QuizContext";
+import Gauge from "src/components/Gauge";
+import {ExperienceContext} from "src/context/ExperienceContext";
 
-const Results: NextPage = () => {
-    const {quiz, answers} = useContext(QuizContext);
+export const QuizResults = () => {
+    const {quiz, results} = useContext(QuizContext);
+    const {experience} = useContext(ExperienceContext);
 
     const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
-    const totalAnswered = answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
+    const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
     return (
         <Container maxWidth="md"
@@ -24,8 +26,8 @@ const Results: NextPage = () => {
                        alignItems: 'center',
                    }}
         >
-            <Typography variant="h2" component="h1" fontWeight={500}>{quiz.title}</Typography>
-            <Typography variant="h4" component="h2">{quiz.subtitle}</Typography>
+            <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
+            <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
             <Paper
                 elevation={3}
                 sx={{
@@ -39,5 +41,3 @@ const Results: NextPage = () => {
         </Container>
     )
 }
-
-export default Results
