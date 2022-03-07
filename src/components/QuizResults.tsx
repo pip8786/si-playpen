@@ -9,12 +9,12 @@ import Gauge from "src/components/Gauge";
 import {ExperienceContext} from "src/context/ExperienceContext";
 
 export const QuizResults = () => {
-    const {quiz, answers} = useContext(QuizContext);
+    const {quiz, results} = useContext(QuizContext);
     const {experience} = useContext(ExperienceContext);
 
     const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
-    const totalAnswered = answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
+    const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
     return (
         <Container maxWidth="md"
