@@ -13,23 +13,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const needleOriginX = 140;
 	const needleOriginY = 40;
 	const [newWidth, newHeight] = imageSizeAfterRotation([baseNeedleWidth, baseNeedleHeight], degrees);
-
-	const radians = degrees * Math.PI / 180;
-	const newWOld = Math.round(baseNeedleWidth * Math.cos(radians) + baseNeedleHeight * Math.sin(radians));
-	const newHOld = Math.round(baseNeedleHeight * Math.cos(radians) + baseNeedleWidth * Math.sin(radians));
-	// const newOriginX = Math.round(needleOriginX * Math.cos(radians) + needleOriginX * Math.sin(radians));
-	// const newOriginY = Math.round(needleOriginY * Math.cos(radians) + needleOriginY * Math.sin(radians));
+	const [newOriginX, newOriginY] = imageSizeAfterRotation([needleOriginX, needleOriginY], degrees);
 	// const top = outputHeight - (newHeight - newOriginY) - 20;
-	console.log(newWidth, newHeight, newWOld, newHOld);
+	console.log(newWidth, newHeight, newOriginX, newOriginY);
 	const needle = sharp(needleFile)
 		.rotate(degrees, {background: "transparent"})
 		.resize(newWidth, newHeight, {fit:"contain", background: "transparent"});
 	const gauge = sharp(gaugeFile)
 		.resize(outputWidth, outputHeight)
-		.extend({bottom: 20, background: "transparent"})
+		.extend({bottom: 20, background: "red"})
 		.composite([
 			{
 				input: await needle.toBuffer(),
+				left: outputWidth / 2 - newOriginX,
+				top: outputHeight - newHeight - 20
 			}
 		]);
 
