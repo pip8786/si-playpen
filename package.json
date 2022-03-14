@@ -19,11 +19,13 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "sharp": "^0.30.3",
     "superjson": "^1.8.1"
   },
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/sharp": "^0.30.0",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "prisma": "^3.10.0",

@@ -23,6 +23,7 @@ const Home: NextPage = () => {
           <Link href="/quiz" color="secondary">
             Go to the about page
           </Link>
+            <img src="/api/quiz/gauge" alt="the gague"/>
         </Box>
       </Container>
   );
