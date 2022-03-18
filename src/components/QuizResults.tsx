@@ -7,6 +7,7 @@ import {useContext} from "react";
 import {QuizContext} from "src/context/QuizContext";
 import Gauge from "src/components/Gauge";
 import {ExperienceContext} from "src/context/ExperienceContext";
+import Head from "next/head";
 
 export const QuizResults = () => {
     const {quiz, results} = useContext(QuizContext);
@@ -26,6 +27,16 @@ export const QuizResults = () => {
                        alignItems: 'center',
                    }}
         >
+            <Head>
+                <title>Curiosity Score: {totalAnswered} of {totalPossible}</title>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:site" content="@SASsoftware"/>
+                <meta name="twitter:creator" content="@saseducator"/>
+                <meta name="twitter:title" content="Curiosity at Work"/>
+                <meta name="twitter:description" content={`I took the curiosity at work quiz. I was ${totalAnswered} / ${totalPossible} curious.`}/>
+                <meta name="twitter:image" content="https://i0.wp.com/www.presentation-process.com/wp-content/uploads/powerpoint-gauge.jpg"/>
+            </Head>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
             <Paper

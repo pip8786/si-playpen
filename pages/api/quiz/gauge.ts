@@ -6,31 +6,45 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const gaugeFile = path.join(process.cwd(), "public/images/gauge.svg");
 	const needleFile = path.join(process.cwd(), "public/images/needle.svg");
 	const outputWidth = 450;
-	const outputHeight = 245;
-	const degrees = 30;
-	const baseNeedleWidth = 165;
-	const baseNeedleHeight = 70;
-	const needleOriginX = 140;
-	const needleOriginY = 40;
+	const outputHeight = 220;
+	const degrees = 90;
+	const baseNeedleWidth = 166;
+	const baseNeedleHeight = 48;
+	const needleOriginX = 0.86144 * baseNeedleWidth;
+	const needleOriginY = 0.50 * baseNeedleHeight;
 	const [newWidth, newHeight] = imageSizeAfterRotation([baseNeedleWidth, baseNeedleHeight], degrees);
-	const [newOriginX, newOriginY] = imageSizeAfterRotation([needleOriginX, needleOriginY], degrees);
+	let [newOriginX, newOriginY] = imageSizeAfterRotation([needleOriginX, needleOriginY], degrees);
+	if(degrees > 90) {
+		newOriginX = baseNeedleWidth-newOriginX;
+	}
 	// const top = outputHeight - (newHeight - newOriginY) - 20;
-	console.log(newWidth, newHeight, newOriginX, newOriginY);
+	//console.log(newWidth, newHeight, newOriginX, newOriginY, outputHeight - newOriginY);
 	const needle = sharp(needleFile)
 		.rotate(degrees, {background: "transparent"})
-		.resize(newWidth, newHeight, {fit:"contain", background: "transparent"});
+		.resize(newWidth, newHeight, {fit:"inside", background: "transparent"});
 	const gauge = sharp(gaugeFile)
-		.resize(outputWidth, outputHeight)
-		.extend({bottom: 20, background: "red"})
-		.composite([
-			{
-				input: await needle.toBuffer(),
-				left: outputWidth / 2 - newOriginX,
-				top: outputHeight - newHeight - 20
-			}
+		.resize(outputWidth, outputHeight, {fit:"inside", background: "transparent"});
+	const comp = sharp({
+		create: {
+			width: outputWidth,
+			height: outputHeight + 20,
+			channels: 4,
+			background: "transparent"
+		}
+	}).composite([
+		{
+			input: await gauge.toBuffer(),
+			left: 0,
+			top: 0
+		},
+		{
+			input: await needle.toBuffer(),
+			left: Math.round(outputWidth / 2 - newOriginX),
+			top: Math.round(outputHeight - newOriginY)
+		}
 		]);
 
-	const png = await gauge.toFormat("png").toBuffer();
+	const png = await comp.toFormat("png").toBuffer();
 
 	res.status(200).send(png);
 }

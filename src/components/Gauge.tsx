@@ -1,6 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import SegmentedCircle from "./SegmentedCircle";
 
 export type GaugeProps = {
 	level: number
@@ -28,22 +29,17 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 				width: 450,
 				height: 245
 			}}>
-				<img src="/images/gauge.svg" alt={`4 part gauge showing a min of ${min} and max of ${max}`} style={{
-					position: "absolute",
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0
-				}}/>
+				<SegmentedCircle />
+
 				<img src="/images/needle.svg" alt={`Gauge needle pointing to ${level}`} style={{
 					position: "absolute",
-					width: 165,
-					height: 70,
-					transformOrigin: "140px 40px",
+					width: 166,
+					height: 48,
+					transformOrigin: `${0.86144 * 166}px ${0.5 * 48}px`,
 					transform: `rotate(${degrees}deg)`,
 					transition: "transform 1s 250ms",
-					bottom: -20,
-					left: 85
+					bottom: 0,
+					left: 166/2
 				}}/>
 			</Box>
 			<Typography variant="h3" align="center" marginTop="14px" marginBottom="5px">{level}</Typography>
