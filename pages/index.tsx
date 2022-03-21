@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from 'src/components/Link';
 import Gauge from "../src/components/Gauge";
-import SegmentedCircle from "../src/components/SegmentedCircle";
 
 const Home: NextPage = () => {
   return (
@@ -25,8 +24,8 @@ const Home: NextPage = () => {
           <Link href="/quiz" color="secondary">
             Go to the about page
           </Link>
-            <img src="/api/quiz/gauge" alt="the gague"/>
-            <Gauge level={8} min={5} max={15}/>
+            <img src="/api/quiz/gauge.png?min=5&max=15&value=8" alt="the gauge"/>
+            <img src="/api/quiz/summary.png?min=5&max=15&value=8" alt="the results"/>
         </Box>
       </Container>
   );
