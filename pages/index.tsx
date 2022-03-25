@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             Go to the about page
           </Link>
             <img src="/api/quiz/gauge.png?min=5&max=15&value=8" alt="the gauge"/>
-            <img src="/api/quiz/summary.png?min=5&max=15&value=8" alt="the results"/>
+            <img src="/api/quiz/summary.png?percents=[10, 30, 50, 10]&total=245" alt="the results"/>
         </Box>
       </Container>
   );

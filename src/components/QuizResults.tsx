@@ -35,7 +35,7 @@ export const QuizResults = () => {
                 <meta name="twitter:creator" content="@saseducator"/>
                 <meta name="twitter:title" content="Curiosity at Work"/>
                 <meta name="twitter:description" content={`I took the curiosity at work quiz. I was ${totalAnswered} / ${totalPossible} curious.`}/>
-                <meta name="twitter:image" content="https://i0.wp.com/www.presentation-process.com/wp-content/uploads/powerpoint-gauge.jpg"/>
+                <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_BASE_URL}/api/quiz/gauge.png?min=${totalMin}&max=${totalPossible}&value=${totalAnswered}`}/>
             </Head>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
