@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		]);
 
 	const png = await gauge.toFormat("png").toBuffer();
-
+	res.setHeader("Content-Type", "image/png");
 	res.status(200).send(png);
 }
 
