@@ -48,6 +48,8 @@ export const QuizResults = () => {
             >
                 <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
                 {result && <Typography>{result.text}</Typography>}
+                <img src="/api/quiz/summary.png?percents=[10, 30, 50, 10]&total=245" alt="the results"/>
+                <a href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</a>
             </Paper>
         </Container>
     )

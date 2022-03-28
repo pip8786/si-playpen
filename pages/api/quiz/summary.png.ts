@@ -40,17 +40,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     fill: #181818;
                 }
                 .cls-12, .cls-3 {
-                    font-family: HelveticaNeue-Medium, HelveticaNeue;
+                    font-family: Inter,sans-serif;
                     font-weight: 500;
                 }
                 .cls-5, .cls-7 {
                     font-size: 27px;
                 }
                 .cls-5 {
-                    font-family: HelveticaNeue, Helvetica Neue;
+                    font-family: Inter,sans-serif;
                 }
                 .cls-13, .cls-15, .cls-7 {
-                    font-family: HelveticaNeue-Bold, HelveticaNeue;
+                    font-family: Inter,sans-serif;
                     font-weight: 700;
                 }
                 .cls-12, .cls-15 {
@@ -84,7 +84,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 
     const png = await test.toFormat("png").toBuffer();
-
+    res.setHeader("Content-Type", "image/png");
     res.status(200).send(png);
 }
 
