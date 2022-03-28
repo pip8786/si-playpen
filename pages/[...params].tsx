@@ -40,14 +40,16 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
     }
     const experience = await getExperience(shortcode);
     if(experience) {
-        let results:QuizUserAnswers|null = null;
+
+        let results:QuizUserAnswers[]|null = null;
         if(query.params.length === 2 ) {
             const resultsCode = query.params[1];
-            results = await prisma.quizUserAnswers.findUnique({
+            results = await prisma.quizUserAnswers.findMany({
                 where: {
-                    id: parseInt(resultsCode)
+                    quizId: experience.quiz?.id
                 }
             });
+            //Figure out results for the summary chart here.
         }
         return {props:{super:superjson.stringify({experience, results})}}
     } else {

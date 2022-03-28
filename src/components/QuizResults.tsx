@@ -33,8 +33,8 @@ export const QuizResults = () => {
                 <meta name="twitter:card" content="summary_large_image"/>
                 <meta name="twitter:site" content="@SASsoftware"/>
                 <meta name="twitter:creator" content="@saseducator"/>
-                <meta name="twitter:title" content="Curiosity at Work"/>
-                <meta name="twitter:description" content={`I took the curiosity at work quiz. I was ${totalAnswered} / ${totalPossible} curious.`}/>
+                <meta name="twitter:title" content="Curiosity at Work Quiz"/>
+                <meta name="twitter:description" content={`My curiosity score is ${totalAnswered}. What's yours? Take this simple quiz to find out.`}/>
                 <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_BASE_URL}/api/quiz/gauge.png?min=${totalMin}&max=${totalPossible}&value=${totalAnswered}`}/>
             </Head>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>

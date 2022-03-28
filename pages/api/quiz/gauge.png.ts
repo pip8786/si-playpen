@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import sharp from "sharp";
+import sharp, {Channels, Color, Noise} from "sharp";
 import path from "path";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,8 +30,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			top: Math.round(outputHeight - newOriginY)
 		}
 		]);
-
-	const png = await gauge.toFormat("png").toBuffer();
+	const final = sharp({create:{
+		width: 600,
+		height: 314,
+		channels: 3,
+		background: "white"
+	}}).composite([{
+		input: await gauge.toBuffer(),
+		gravity: "center"
+	}]);
+	const png = await final.toFormat("png").toBuffer();
 	res.setHeader("Content-Type", "image/png");
 	res.status(200).send(png);
 }

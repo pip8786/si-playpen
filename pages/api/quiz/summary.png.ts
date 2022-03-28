@@ -8,6 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
     const total = paramInteger(req.query.total);
+    const youPercent = paramInteger(req.query.you);
     const width = 765;
     const height = 400;
     const percents = JSON.parse(req.query.percents);
@@ -40,14 +41,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     fill: #181818;
                 }
                 .cls-12, .cls-3 {
+                    font-family: Inter,sans-serif;
                     font-weight: 500;
                 }
                 .cls-5, .cls-7 {
                     font-size: 27px;
                 }
                 .cls-5 {
+                    font-family: Inter,sans-serif;
                 }
                 .cls-13, .cls-15, .cls-7 {
+                    font-family: Inter,sans-serif;
                     font-weight: 700;
                 }
                 .cls-12, .cls-15 {
@@ -68,13 +72,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             </style>
         </defs>
     
-        <text class="cls-3" transform="translate(19.5 63.96)">HOW DO YOU COMPARE?</text>
+        <text class="cls-3" transform="translate(19.5 63.96)">How do you compare?</text>
         <text class="cls-5" transform="translate(19.5 107.51)">Total Participants:</text>
         <text class="cls-7" transform="translate(242.52 107.51)">${total}</text>
         ${rectangles}
         ${percentLabels}
         ${textLabels}
-        <text class="cls-15" transform="translate(432.95 159.06)">YOU</text>
+        <text class="cls-15" x="${rectangleTotalWidth*youPercent/100}" y="160">You</text>
         <line id="Line_14" class="cls-16" x1="467.07" y1="167.09" x2="467.07" y2="373.82"/>
     </svg>
 	`));

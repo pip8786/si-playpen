@@ -23,8 +23,9 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 		}}>
 			<Typography variant="h4" sx={{
 				width: "100%",
-			}}>Your Curiosity Rating:</Typography>
+			}}>Your curiosity rating:</Typography>
 			<Box sx={{
+				mt: 2,
 				position: "relative",
 				width: 450,
 				height: 245
