@@ -40,17 +40,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     fill: #181818;
                 }
                 .cls-12, .cls-3 {
-                    font-family: sans-serif;
                     font-weight: 500;
                 }
                 .cls-5, .cls-7 {
                     font-size: 27px;
                 }
                 .cls-5 {
-                    font-family: sans-serif;
                 }
                 .cls-13, .cls-15, .cls-7 {
-                    font-family: sans-serif;
                     font-weight: 700;
                 }
                 .cls-12, .cls-15 {
