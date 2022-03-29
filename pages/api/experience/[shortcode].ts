@@ -33,15 +33,16 @@ export default async (req: NextApiRequest, res: NextApiResponse<ExperienceWithCo
         res.status(200).json(xp);
     } else if(req.method === "POST") {
         if(xp.quiz) {
-            const {answers} = req.body;
-            if(!Array.isArray(answers) || answers.length !== xp.quiz.questions.length) {
+            const {answers, score} = req.body;
+            if(!Array.isArray(answers) || answers.length !== xp.quiz.questions.length || typeof score !== "number") {
                 res.status(400).end();
                 return;
             }
             const result = await prisma.quizUserAnswers.create({
                 data: {
                     quizId: xp.quiz.id,
-                    answers: answers
+                    answers: answers,
+                    score
                 }
             });
             if(result) {

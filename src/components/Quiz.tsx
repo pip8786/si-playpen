@@ -20,6 +20,7 @@ export const Quiz = () => {
     const answer = async (index:number) => {
         if(currentQIndex === quiz.questions.length - 1) {
             const newValue = [...answers, index];
+            const score = newValue.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
             const response = await fetch(`/api/experience/${experience.shortcode}`,{
                 method: "POST",
                 headers: {
@@ -27,7 +28,8 @@ export const Quiz = () => {
                     Accept: "application/json",
                 },
                 body: JSON.stringify({
-                    answers: newValue
+                    answers: newValue,
+                    score
                 })
             });
             const results = response.ok && await response.json();

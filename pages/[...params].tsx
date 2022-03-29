@@ -3,25 +3,27 @@ import {GetServerSideProps, NextPage} from "next";
 import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]";
 import ExperienceContextProvider from "src/context/ExperienceContext";
 import {ExperienceType, QuizUserAnswers} from '@prisma/client';
-import QuizContextProvider from "src/context/QuizContext";
+import QuizContextProvider, {QuizSummary} from "src/context/QuizContext";
 import {Quiz} from "src/components/Quiz";
 import superjson from "superjson";
 import {prisma} from "src/util/db";
 import {QuizResults} from "../src/components/QuizResults";
 
+
 type ExperiencePageProps = {
     experience: ExperienceWithContent
     results: QuizUserAnswers
+    summary: QuizSummary
 }
 
-const ExperiencePage:NextPage<ExperiencePageProps> = ({experience, results}) => {
+const ExperiencePage:NextPage<ExperiencePageProps> = ({experience, results, summary}) => {
     let children = <></>;
     if(experience.type === ExperienceType.Quiz && experience.quiz) {
         let Component = Quiz;
         if(results) {
             Component = QuizResults;
         }
-        children = <QuizContextProvider quiz={experience.quiz} results={results}><Component/></QuizContextProvider>
+        children = <QuizContextProvider quiz={experience.quiz} results={results} summary={summary}><Component/></QuizContextProvider>
     }
     return <ExperienceContextProvider experience={experience}>
         {children}
@@ -41,17 +43,35 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
     const experience = await getExperience(shortcode);
     if(experience) {
 
-        let results:QuizUserAnswers[]|null = null;
-        if(query.params.length === 2 ) {
+        let summary = {};
+        let individual:QuizUserAnswers|undefined;
+        if(query.params.length === 2 && experience.quiz) {
+            const quiz = experience.quiz;
             const resultsCode = query.params[1];
-            results = await prisma.quizUserAnswers.findMany({
+            const results = await prisma.quizUserAnswers.findMany({
                 where: {
-                    quizId: experience.quiz?.id
+                    quizId: quiz.id
                 }
             });
-            //Figure out results for the summary chart here.
+
+            const grouped = quiz.results.map(()=>0);
+            results.forEach((answer)=>{
+                const i = quiz.results.findIndex(r => {
+                    return r.min <= answer.score && answer.score <= r.max;
+                });
+                grouped[i] += 1;
+                if(parseInt(resultsCode) === answer.id) {
+                    individual = answer;
+                }
+            });
+            summary = {
+                total: results.length,
+                grouped,
+                labels: quiz.results.map(r => r.shortLabel),
+                individual: individual?.score
+            };
         }
-        return {props:{super:superjson.stringify({experience, results})}}
+        return {props:{super:superjson.stringify({experience, summary, results:individual})}}
     } else {
         res.statusCode = 404;
         return {props:{}};

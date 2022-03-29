@@ -3,7 +3,7 @@ import sharp from "sharp";
 import path from "path";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    if(typeof req.query.percents !== "string") {
+    if(typeof req.query.grouped !== "string" || typeof req.query.labels !== "string") {
         res.status(400).end();
         return;
     }
@@ -11,9 +11,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const youPercent = paramInteger(req.query.you);
     const width = 765;
     const height = 400;
-    const percents = JSON.parse(req.query.percents);
+    const grouped = JSON.parse(req.query.grouped);
+    const percents = grouped.map((c:number) => c/total);
     const colors = ["#4DB2BB","#02838E","#025661","#00363A"];
-    const labels = ["LOW", "AVERAGE", "HIGH", "EXCEPTIONAL"];
+    const labels = JSON.parse(req.query.labels);
     const rectHeight = 140;
     const rectY = 210;
 
@@ -23,10 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let currentX = 5;
     const rectangleTotalWidth = width - currentX * 2;
     for(let i = 0; i < percents.length; i++) {
-        const rectWidth = percents[i]/100 * rectangleTotalWidth;
+        const rectWidth = percents[i] * rectangleTotalWidth;
         rectangles += `<rect fill="${colors[i]}" x="${currentX}" y="${rectY}" width="${rectWidth}" height="${rectHeight}"/>`;
         textLabels += `<text class="cls-13" x="${currentX + rectWidth / 2}" y="${rectY-10}" text-anchor="middle">${labels[i]}</text>`
-        percentLabels += `<text class="cls-12" x="${currentX + rectWidth / 2}" y="${rectY+rectHeight+35}" text-anchor="middle">${percents[i]}%</text>`
+        percentLabels += `<text class="cls-12" x="${currentX + rectWidth / 2}" y="${rectY+rectHeight+35}" text-anchor="middle">${Math.round(percents[i]*100)}%</text>`
         currentX += rectWidth;
     }
 

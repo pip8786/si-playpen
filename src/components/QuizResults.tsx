@@ -10,7 +10,7 @@ import {ExperienceContext} from "src/context/ExperienceContext";
 import Head from "next/head";
 
 export const QuizResults = () => {
-    const {quiz, results} = useContext(QuizContext);
+    const {quiz, results, summary} = useContext(QuizContext);
     const {experience} = useContext(ExperienceContext);
 
     const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
@@ -48,7 +48,7 @@ export const QuizResults = () => {
             >
                 <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
                 {result && <Typography>{result.text}</Typography>}
-                <img src="/api/quiz/summary.png?percents=[10, 30, 50, 10]&total=245" alt="the results"/>
+                {summary && <img src={`/api/quiz/summary.png?grouped=${JSON.stringify(summary.grouped)}&total=${summary.total}&you=${summary.individual}&labels=${JSON.stringify(summary.labels)}`} alt="the results"/>}
                 <a href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</a>
             </Paper>
         </Container>

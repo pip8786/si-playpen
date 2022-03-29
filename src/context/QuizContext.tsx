@@ -22,6 +22,13 @@ const questionWithAnswers = Prisma.validator<Prisma.QuestionArgs>()({
 
 export type QuestionWithAnswers = Prisma.QuestionGetPayload<typeof questionWithAnswers>;
 
+export type QuizSummary = {
+	total: number
+	grouped: number[]
+	labels: string[]
+	individual?: number
+};
+
 type ContextProps = {
 	currentQIndex: number
 	answers: number[]
@@ -29,11 +36,12 @@ type ContextProps = {
 	quiz: QuizWithContent
 	currentQuestion: QuestionWithAnswers
 	results?: QuizUserAnswers
+	summary?: QuizSummary
 }
 
 export const QuizContext = createContext<ContextProps>({} as ContextProps);
 
-let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results}) => {
+let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results, summary}) => {
 	const [currentQIndex, setCurrentQIndex] = useState(0);
 	const [answers, setAnswers] = useState<number[]>([]);
 
@@ -48,7 +56,8 @@ let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results})
 		answerQuestion,
 		quiz:quiz!,
 		currentQuestion: quiz!.questions[currentQIndex],
-		results
+		results,
+		summary
 	}}>
 		{children}
 	</QuizContext.Provider>;
