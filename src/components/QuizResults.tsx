@@ -8,6 +8,7 @@ import {QuizContext} from "src/context/QuizContext";
 import Gauge from "src/components/Gauge";
 import {ExperienceContext} from "src/context/ExperienceContext";
 import Head from "next/head";
+import Summary from "./Summary";
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -48,7 +49,7 @@ export const QuizResults = () => {
             >
                 <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
                 {result && <Typography>{result.text}</Typography>}
-                {summary && <img src={`/api/quiz/summary.png?grouped=${JSON.stringify(summary.grouped)}&total=${summary.total}&you=${summary.individual}&labels=${JSON.stringify(summary.labels)}`} alt="the results"/>}
+                {summary && <Summary {...summary}/>}
                 <a href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</a>
             </Paper>
         </Container>

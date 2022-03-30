@@ -26,7 +26,7 @@ export type QuizSummary = {
 	total: number
 	grouped: number[]
 	labels: string[]
-	individual?: number
+	youRange?: [number,number]
 };
 
 type ContextProps = {

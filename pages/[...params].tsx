@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
     const experience = await getExperience(shortcode);
     if(experience) {
 
-        let summary = {};
+        let summary:QuizSummary|undefined = undefined;
         let individual:QuizUserAnswers|undefined;
         if(query.params.length === 2 && experience.quiz) {
             const quiz = experience.quiz;
@@ -67,22 +67,22 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
                     individual = answer;
                 }
             });
-            let position = 0;
+            let start = 0;
+            let end = 0;
             if(individual) {
                 for(let i = 0; i <= individual.score - overallMin; i++) {
                     if(individual.score - overallMin === i) {
-                        position+=grouped[i]/2;
+                        end = start + grouped[i] ?? 0;
                     } else {
-                        position+=grouped[i]??0;
+                        start+=grouped[i]??0;
                     }
                 }
             }
-
             summary = {
                 total: results.length,
                 grouped:categories,
                 labels: quiz.results.map(r => r.shortLabel),
-                individual: position/results.length
+                youRange: start !== end && end > 0 ? [start/results.length,end/results.length] : undefined
             };
         }
         return {props:{super:superjson.stringify({experience, summary, results:individual})}}
