@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,7 +15,7 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
-    "@prisma/client": "^3.10.0",
+    "@prisma/client": "^3.11.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -28,7 +28,7 @@
     "@types/sharp": "^0.30.0",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "prisma": "^3.10.0",
+    "prisma": "^3.11.1",
     "typescript": "latest"
   }
 }
