@@ -53,22 +53,36 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
                     quizId: quiz.id
                 }
             });
-
-            const grouped = quiz.results.map(()=>0);
+            const overallMin = quiz.results[0].min;
+            const grouped:number[] = [];
+            const categories = quiz.results.map(()=>0);
             results.forEach((answer)=>{
                 const i = quiz.results.findIndex(r => {
                     return r.min <= answer.score && answer.score <= r.max;
                 });
-                grouped[i] += 1;
+                categories[i] += 1;
+                const index = answer.score - overallMin;
+                grouped[index] = (grouped[index] ?? 0)+1;
                 if(parseInt(resultsCode) === answer.id) {
                     individual = answer;
                 }
             });
+            let position = 0;
+            if(individual) {
+                for(let i = 0; i <= individual.score - overallMin; i++) {
+                    if(individual.score - overallMin === i) {
+                        position+=grouped[i]/2;
+                    } else {
+                        position+=grouped[i]??0;
+                    }
+                }
+            }
+
             summary = {
                 total: results.length,
-                grouped,
+                grouped:categories,
                 labels: quiz.results.map(r => r.shortLabel),
-                individual: individual?.score
+                individual: position/results.length
             };
         }
         return {props:{super:superjson.stringify({experience, summary, results:individual})}}

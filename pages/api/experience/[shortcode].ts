@@ -10,7 +10,11 @@ const experienceWithContent = Prisma.validator<Prisma.ExperienceArgs>()({
                         answers: true
                     }
                 },
-                results: true
+                results: {
+                    orderBy: {
+                        min: "asc"
+                    }
+                }
             }
         }
     }

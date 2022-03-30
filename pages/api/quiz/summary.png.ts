@@ -7,8 +7,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).end();
         return;
     }
-    const total = paramInteger(req.query.total);
-    const youPercent = paramInteger(req.query.you);
+    const total = paramNumber(req.query.total);
+    const youPercent = paramNumber(req.query.you);
     const width = 765;
     const height = 400;
     const grouped = JSON.parse(req.query.grouped);
@@ -79,8 +79,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ${rectangles}
         ${percentLabels}
         ${textLabels}
-        <text class="cls-15" x="${rectangleTotalWidth*youPercent/100}" y="160">You</text>
-        <line id="Line_14" class="cls-16" x1="467.07" y1="167.09" x2="467.07" y2="373.82"/>
+        <text class="cls-15" x="${rectangleTotalWidth*youPercent}" y="160" text-anchor="middle">You</text>
+        <line id="Line_14" class="cls-16" x1="${rectangleTotalWidth*youPercent}" y1="168" x2="${rectangleTotalWidth*youPercent}" y2="${168+rectHeight+(rectY - 168)+20}"/>
     </svg>
 	`));
 
@@ -90,12 +90,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).send(png);
 }
 
-function paramInteger(param: string | string[], other: number = 0) {
+function paramNumber(param: string | string[], other: number = 0) {
     let num = NaN;
     if (typeof param === "string") {
-        num = parseInt(param);
+        num = Number(param);
     } else if (param && param.length > 0) {
-        num = parseInt(param[0]);
+        num = Number(param[0]);
     }
     return isNaN(num) ? other : num;
 }
