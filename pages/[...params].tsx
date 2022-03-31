@@ -45,6 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
 
         let summary:QuizSummary|undefined = undefined;
         let individual:QuizUserAnswers|undefined;
+        let youGroup = 0;
         if(query.params.length === 2 && experience.quiz) {
             const quiz = experience.quiz;
             const resultsCode = query.params[1];
@@ -65,6 +66,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
                 grouped[index] = (grouped[index] ?? 0)+1;
                 if(parseInt(resultsCode) === answer.id) {
                     individual = answer;
+                    youGroup = i;
                 }
             });
             let start = 0;
@@ -82,6 +84,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
                 total: results.length,
                 grouped:categories,
                 labels: quiz.results.map(r => r.shortLabel),
+                youGroup,
                 youRange: start !== end && end > 0 ? [start/results.length,end/results.length] : undefined
             };
         }

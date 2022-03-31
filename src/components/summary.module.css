@@ -1,7 +1,7 @@
 .compare {
     font-size: 40px;
 }
-.percentLabel, .segmentLabel, .compare, .total, .totalNumber {
+.percentLabel, .segmentLabel, .compare, .total, .totalNumber, .youLine {
     fill: #181818;
 }
 .percentLabel, .compare {
@@ -18,18 +18,18 @@
     font-family: Roboto, Inter,sans-serif;
     font-weight: 700;
 }
-.percentLabel, .youText {
+.percentLabel {
     font-size: 31px;
+}
+.youText {
+    font-size:16px;
 }
 .segmentLabel {
     font-size: 10px;
 }
-.youText {
-    fill: #e82625;
-}
 .youLine {
-    fill: none;
-    stroke: #e82625;
+    fill: rgba(255,255,255,0.5);
+    mask: url(#mask-stripe);
+    stroke: none;
     stroke-width: 4px;
-    stroke-dasharray: 4;
 }

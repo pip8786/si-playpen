@@ -26,6 +26,7 @@ export type QuizSummary = {
 	total: number
 	grouped: number[]
 	labels: string[]
+	youGroup: number
 	youRange?: [number,number]
 };
 
