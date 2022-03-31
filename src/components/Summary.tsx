@@ -26,10 +26,10 @@ export default function Summary({grouped, labels, youRange, total, youGroup}:Qui
         <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`}>
             <defs>
                 <pattern id="pattern-stripe"
-                         width="8" height="8"
+                         width="10" height="10"
                          patternUnits="userSpaceOnUse"
                          patternTransform="rotate(45)">
-                    <rect width="4" height="8" transform="translate(0,0)" fill="white"/>
+                    <rect width="3" height="10" fill="white"/>
                 </pattern>
                 <mask id="mask-stripe">
                     <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripe)" />
