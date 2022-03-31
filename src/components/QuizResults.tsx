@@ -1,4 +1,3 @@
-import type {NextPage} from 'next'
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
@@ -7,8 +6,14 @@ import {useContext} from "react";
 import {QuizContext} from "src/context/QuizContext";
 import Gauge from "src/components/Gauge";
 import {ExperienceContext} from "src/context/ExperienceContext";
-import Head from "next/head";
 import Summary from "./Summary";
+import {Box} from "@mui/system";
+import {IconButton, Tooltip} from "@mui/material";
+import LinkIcon from '@mui/icons-material/Link';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import Link from './Link';
+import { HeadWithMeta } from './HeadWithMeta';
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -28,16 +33,9 @@ export const QuizResults = () => {
                        alignItems: 'center',
                    }}
         >
-            <Head>
+            <HeadWithMeta>
                 <title>Curiosity Score: {totalAnswered} of {totalPossible}</title>
-
-                <meta name="twitter:card" content="summary_large_image"/>
-                <meta name="twitter:site" content="@SASsoftware"/>
-                <meta name="twitter:creator" content="@saseducator"/>
-                <meta name="twitter:title" content="Curiosity at Work Quiz"/>
-                <meta name="twitter:description" content={`My curiosity score is ${totalAnswered}. What's yours? Take this simple quiz to find out.`}/>
-                <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_BASE_URL}/api/quiz/gauge.png?min=${totalMin}&max=${totalPossible}&value=${totalAnswered}`}/>
-            </Head>
+            </HeadWithMeta>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
             <Paper
@@ -50,7 +48,37 @@ export const QuizResults = () => {
                 <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
                 {result && <Typography>{result.text}</Typography>}
                 {summary && <Summary {...summary}/>}
-                <a href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</a>
+
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "center"
+                }}>
+                    <Link href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</Link>
+                </Box>
+                <Box sx={{
+                    mt: 4,
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}>
+                    <Link href={"/curious"}>Retake Quiz</Link>
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                    }}>
+                        Share:
+                        <Tooltip title="Copy Link" placement="bottom">
+                            <IconButton><LinkIcon/></IconButton>
+                        </Tooltip>
+                        <Tooltip title="Share on Twitter" placement="bottom">
+                            <IconButton><TwitterIcon/></IconButton>
+                        </Tooltip>
+                        <Tooltip title="Share on Facebook" placement="bottom">
+                            <IconButton><FacebookIcon/></IconButton>
+                        </Tooltip>
+                    </Box>
+                </Box>
+
             </Paper>
         </Container>
     )

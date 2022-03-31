@@ -11,6 +11,7 @@ import {QuizContext} from "src/context/QuizContext";
 import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
+import {HeadWithMeta} from "./HeadWithMeta";
 
 export const Quiz = () => {
     const router = useRouter();
@@ -54,6 +55,9 @@ export const Quiz = () => {
                        alignItems: 'center',
                    }}
         >
+            <HeadWithMeta>
+                <title>Curiosity @ Work Quiz</title>
+            </HeadWithMeta>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
             <Paper
