@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
-import GirlMagnify from 'public/images/girl_magnify.png';
 import {Button, Fade, Stack} from "@mui/material";
 
 import {useContext} from "react";
@@ -35,7 +34,7 @@ export const Quiz = () => {
             });
             const results = response.ok && await response.json();
             if(results) {
-                await router.push(`/${experience.shortcode}/${results.id}`);
+                await router.push(`/${experience.shortcode}/results/${results.id}`);
                 answerQuestion(index);
             } else {
                 console.error("Error saving results to the server.");
@@ -55,9 +54,7 @@ export const Quiz = () => {
                        alignItems: 'center',
                    }}
         >
-            <HeadWithMeta>
-                <title>Curiosity @ Work Quiz</title>
-            </HeadWithMeta>
+            <HeadWithMeta title="Curiosity @ Work Quiz"/>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
             <Paper
@@ -67,7 +64,7 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-                <Image src={GirlMagnify} alt="Girl with Magnifying Glass"/>
+                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={800} height={533} alt="Girl with Magnifying Glass"/>
 
                 <Box height="200px" position="relative">
                     {quiz.questions.map((q, i) => (

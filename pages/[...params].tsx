@@ -14,13 +14,14 @@ type ExperiencePageProps = {
     experience: ExperienceWithContent
     results: QuizUserAnswers
     summary: QuizSummary
+    isResults: boolean
 }
 
-const ExperiencePage:NextPage<ExperiencePageProps> = ({experience, results, summary}) => {
+const ExperiencePage:NextPage<ExperiencePageProps> = ({experience, results, summary, isResults}) => {
     let children = <></>;
     if(experience.type === ExperienceType.Quiz && experience.quiz) {
         let Component = Quiz;
-        if(results) {
+        if(isResults) {
             Component = QuizResults;
         }
         children = <QuizContextProvider quiz={experience.quiz} results={results} summary={summary}><Component/></QuizContextProvider>
@@ -45,10 +46,12 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
 
         let summary:QuizSummary|undefined = undefined;
         let individual:QuizUserAnswers|undefined;
+        let isResults = false;
         let youGroup = 0;
-        if(query.params.length === 2 && experience.quiz) {
+        if(query.params.length >= 2 && experience.quiz) {
             const quiz = experience.quiz;
-            const resultsCode = query.params[1];
+            isResults = query.params[1] === "results";
+            const resultsCode = isResults ? query.params[2] : query.params[1];
             const results = await prisma.quizUserAnswers.findMany({
                 where: {
                     quizId: quiz.id
@@ -88,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
                 youRange: start !== end && end > 0 ? [start/results.length,end/results.length] : undefined
             };
         }
-        return {props:{super:superjson.stringify({experience, summary, results:individual})}}
+        return {props:{super:superjson.stringify({experience, summary, results:individual, isResults})}}
     } else {
         res.statusCode = 404;
         return {props:{}};
