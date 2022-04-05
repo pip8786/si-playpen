@@ -38,6 +38,7 @@ type ContextProps = {
 	currentQuestion: QuestionWithAnswers
 	results?: QuizUserAnswers
 	summary?: QuizSummary
+	resetContext: ()=>void
 }
 
 export const QuizContext = createContext<ContextProps>({} as ContextProps);
@@ -51,6 +52,11 @@ let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results, 
 		setCurrentQIndex(v=> v+1);
 	}
 
+	const resetContext = () => {
+		setAnswers([]);
+		setCurrentQIndex(0);
+	}
+
 	return <QuizContext.Provider value={{
 		currentQIndex,
 		answers,
@@ -58,7 +64,8 @@ let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results, 
 		quiz:quiz!,
 		currentQuestion: quiz!.questions[currentQIndex],
 		results,
-		summary
+		summary,
+		resetContext
 	}}>
 		{children}
 	</QuizContext.Provider>;

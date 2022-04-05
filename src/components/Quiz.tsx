@@ -15,7 +15,7 @@ import {HeadWithMeta} from "./HeadWithMeta";
 export const Quiz = () => {
     const router = useRouter();
     const {experience} = useContext(ExperienceContext);
-    const {currentQIndex, quiz, answerQuestion, answers} = useContext(QuizContext);
+    const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
 
     const answer = async (index:number) => {
         if(currentQIndex === quiz.questions.length - 1) {
@@ -35,7 +35,7 @@ export const Quiz = () => {
             const results = response.ok && await response.json();
             if(results) {
                 await router.push(`/${experience.shortcode}/results/${results.id}`);
-                answerQuestion(index);
+                resetContext();
             } else {
                 console.error("Error saving results to the server.");
             }
@@ -66,7 +66,7 @@ export const Quiz = () => {
             >
                 <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
 
-                <Box height="200px" position="relative">
+                <Box height="275px" position="relative">
                     {quiz.questions.map((q, i) => (
                         <Fade in={currentQIndex === i} key={i} timeout={1000}>
                             <Box position="absolute" top={0} right={0} bottom={0} left={0}>
