@@ -64,7 +64,7 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={800} height={533} alt="Girl with Magnifying Glass"/>
+                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
 
                 <Box height="200px" position="relative">
                     {quiz.questions.map((q, i) => (
