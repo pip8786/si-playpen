@@ -14,7 +14,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {useContext, useState} from "react";
 import superjson from "superjson";
 
-
 type ExperiencePageProps = {
     experience: ExperienceWithContent
 }
@@ -28,7 +27,6 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
         //onClick for "Launch Quiz", loading indicator occurs while waiting to be pushed to '/curious' page
        setLoading(true);
        router.push('/curious');
-       console.log(experience)
     }
 
   return (
@@ -92,15 +90,9 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                                </Button>
                        </Container>
                  }
-
-
              </Box>
-
-
           </Paper>
       </Container>
-
-
   );
 };
 
@@ -111,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
         return {props:{super:superjson.stringify({experience})}}
     } else {
         res.statusCode = 404;
-
+        return {props:{}};
     }
  }
 
