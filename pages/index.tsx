@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { NextPage } from 'next';
 import Head from "next/head";
+import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -11,15 +12,15 @@ import Image from 'next/image';
 import {useRouter} from "next/router";
 import CircularProgress from '@mui/material/CircularProgress'
 import {useContext, useState} from "react";
-import {ExperienceContext} from "../src/context/ExperienceContext";
-import {HeadWithMeta} from "../src/components/HeadWithMeta";
+import superjson from "superjson";
 
 
-const Home: NextPage = () => {
+const Home: NextPage = ({experience}) => {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const {experience} = useContext(ExperienceContext);
+    console.log(experience)
+
 
     const loadingCuriousExperience = () => {
         //onClick for "Launch Quiz", loading indicator occurs while waiting to be pushed to '/curious' page
@@ -28,6 +29,7 @@ const Home: NextPage = () => {
     }
 
   return (
+
       <Container maxWidth="md"
                 sx={{
                    my: 4,
@@ -38,8 +40,8 @@ const Home: NextPage = () => {
                 }}
         >
             <Head><title>Experience Engine</title></Head>
-            <Typography variant="h2" component="h1" fontWeight={500}>Curiosity @ Work Quiz</Typography>
-            <Typography variant="h4" component="h2">How do you show curiosity in the workplace?</Typography>
+            <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
+            <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
 
           <Paper
               elevation={3}
@@ -48,7 +50,7 @@ const Home: NextPage = () => {
                  m:1
               }}
           >
-             <Image src={`/images/curious/1.png`} width={500} height={333}  alt="Girl with Magnifying Glass"/>
+             <Image src={`/images/${experience.shortcode}/1.png`} width={500} height={333}  alt="Girl with Magnifying Glass"/>
              <Box height="55px" position="relative"
              >
                 {/*if loading is true, display loading indicator; is false, display 'Launch Quiz' button*/}
@@ -94,7 +96,20 @@ const Home: NextPage = () => {
 
           </Paper>
       </Container>
+
+
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
+    const shortcode = "curious";
+    const experience = await getExperience(shortcode);
+    if (experience) {
+        return {props:{super:superjson.stringify({experience})}}
+    } else {
+        res.statusCode = 404;
+
+    }
+ }
 
 export default Home;
