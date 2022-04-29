@@ -7,12 +7,13 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from 'src/components/Link';
 import {Button} from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton'
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
 import {useRouter} from "next/router";
-import CircularProgress from '@mui/material/CircularProgress'
-import {useContext, useState} from "react";
+import {useState} from "react";
 import superjson from "superjson";
+
 
 type ExperiencePageProps = {
     experience: ExperienceWithContent
@@ -65,8 +66,16 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                             p: '10px'
                             }}
                             >
-                           <CircularProgress size='3em'/>
-                           <Typography variant='body1'>Loading Quiz...</Typography>
+                            <LoadingButton
+                                loading
+                                loadingPosition="start"
+                                variant="contained"
+                                sx={{
+                                    height:'60px', width:'200px'
+                                    }}
+                            >
+                             Loading Quiz
+                           </LoadingButton>
                        </Container>
 
                      : <Container
