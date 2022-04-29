@@ -14,6 +14,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
+import  { Breakpoint } from 'react-socks';
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);

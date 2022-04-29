@@ -11,6 +11,8 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
+import  { Breakpoint } from 'react-socks';
+
 
 export const Quiz = () => {
     const router = useRouter();
@@ -82,8 +84,25 @@ export const Quiz = () => {
                     ))}
 
                 </Box>
-                <Typography textAlign="center" marginTop={2}>{currentQIndex+1} of {quiz.questions.length}</Typography>
+
+                {/*https://www.npmjs.com/package/react-socks - breakpoints for screen size responsiveness*/}
+                {/*this breakpoint is for 'medium(768) to xlarge(1200) devices' */}
+                <Breakpoint medium up>
+                    <Typography textAlign="center" marginTop={2} >{currentQIndex+1} of {quiz.questions.length}</Typography>
+                </Breakpoint>
+
+                {/*this breakpoint is for small and xsmall devices */}
+                <Breakpoint small down>
+                    <Typography textAlign="center" marginTop={10} >{currentQIndex+1} of {quiz.questions.length}</Typography>
+                </Breakpoint>
+
+                {/*this breakpoint is for x-small devices*/}
+                {/*<Breakpoint x-small only>
+                    <Typography textAlign="center" marginTop={5} >{currentQIndex+1} of {quiz.questions.length}</Typography>
+                </Breakpoint>*/}
             </Paper>
         </Container>
+
+
     )
 }
