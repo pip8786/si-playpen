@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { NextPage } from 'next';
+import {GetServerSideProps, NextPage} from "next";
 import Head from "next/head";
-import {getExperience} from "./api/experience/[shortcode]";
+import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -15,7 +15,11 @@ import {useContext, useState} from "react";
 import superjson from "superjson";
 
 
-const Home: NextPage = ({experience}) => {
+type ExperiencePageProps = {
+    experience: ExperienceWithContent
+}
+
+const Home: NextPage<ExperiencePageProps> = ({experience}) => {
 
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -24,6 +28,7 @@ const Home: NextPage = ({experience}) => {
         //onClick for "Launch Quiz", loading indicator occurs while waiting to be pushed to '/curious' page
        setLoading(true);
        router.push('/curious');
+       console.log(experience)
     }
 
   return (
