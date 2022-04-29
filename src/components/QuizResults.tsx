@@ -15,7 +15,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import CircularProgress from '@mui/material/CircularProgress';
-import Backdrop from '@mui/material/Backdrop';
+import LoadingButton from '@mui/lab/LoadingButton'
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -28,7 +28,6 @@ export const QuizResults = () => {
     const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
     const [loading, setLoading] = useState(false);
-//     const [open, setOpen] = useState(false);
 
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);
@@ -45,11 +44,6 @@ export const QuizResults = () => {
     const onFacebookClick = () => {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`, "_blank");
     };
-
-    const loadingOnClick = () => {
-        setLoading(true);
-    }
-
 
     return (
         <Container maxWidth="md"
@@ -90,8 +84,18 @@ export const QuizResults = () => {
 
                     {/*if loading is true, show loading circle, else show Retake Quiz link*/}
                     {loading
-                    ? <CircularProgress/>
-                    : <Link onClick={loadingOnClick} href="/curious">Retake Quiz</Link>
+                    ? <LoadingButton
+                          loading
+                          size="small"
+                          loadingPosition="start"
+                          variant="text"
+                          sx={{
+                              height:'60px', width:'200px'
+                              }}
+                      >
+                       Loading Quiz
+                     </LoadingButton>
+                    : <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
                     }
 
                     <Box sx={{
