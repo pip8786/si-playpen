@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
     if (experience) {
         return {props:{super:superjson.stringify({experience})}}
     } else {
-        res.statusCode = 404;
+        notFound: true;
         return {props:{}};
     }
  }
