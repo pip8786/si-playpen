@@ -16,11 +16,13 @@ import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import CircularProgress from '@mui/material/CircularProgress';
 import LoadingButton from '@mui/lab/LoadingButton'
+import {Button} from "@mui/material";
+import {useRouter} from "next/router";
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
     const {experience} = useContext(ExperienceContext);
-
+    const router = useRouter();
     const [copyLinkTooltip, setCopyLinkTooltip] = useState("Copy Link");
 
     const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
@@ -81,22 +83,21 @@ export const QuizResults = () => {
                     display: "flex",
                     justifyContent: "space-between"
                 }}>
-
-                    {/*if loading is true, show loading circle, else show Retake Quiz link*/}
-                    {loading
-                    ? <LoadingButton
-                          loading
-                          size="small"
-                          loadingPosition="start"
-                          variant="text"
-                          sx={{
-                              height:'60px', width:'200px'
-                              }}
-                      >
-                       Loading Quiz
-                     </LoadingButton>
-                    : <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
-                    }
+                {/*if loading is true, show loading circle, else show Retake Quiz link*/}
+                {loading
+                ? <LoadingButton
+                      loading
+                      size="small"
+                      loadingPosition="start"
+                      variant="text"
+                      sx={{
+                          height:'60px', width:'150px'
+                          }}
+                  >
+                   Loading Quiz
+                </LoadingButton>
+                : <Button variant="contained" onClick={()=>router.push(`/${experience.shortcode}`)}>Retake Quiz</Button>
+                }
 
                     <Box sx={{
                         display: "flex",

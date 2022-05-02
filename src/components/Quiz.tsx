@@ -11,8 +11,6 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import Backdrop from '@mui/material/Backdrop';
-
 
 export const Quiz = () => {
     const router = useRouter();
