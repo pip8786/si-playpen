@@ -5,7 +5,6 @@ import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Link from 'src/components/Link';
 import {Button} from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton'
 import Paper from "@mui/material/Paper";
