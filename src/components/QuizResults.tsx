@@ -22,7 +22,7 @@ import {useRouter} from "next/router";
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
     const {experience} = useContext(ExperienceContext);
-    const router = useRouter();
+
     const [copyLinkTooltip, setCopyLinkTooltip] = useState("Copy Link");
 
     const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
