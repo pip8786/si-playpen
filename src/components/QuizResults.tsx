@@ -91,12 +91,12 @@ export const QuizResults = () => {
                       loadingPosition="start"
                       variant="text"
                       sx={{
-                          height:'60px', width:'150px'
+                          height:'30px', width:'150px'
                           }}
                   >
                    Loading Quiz
                 </LoadingButton>
-                : <Button variant="contained" onClick={()=>router.push(`/${experience.shortcode}`)}>Retake Quiz</Button>
+                : <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
                 }
 
                     <Box sx={{
