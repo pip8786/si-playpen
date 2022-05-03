@@ -6,7 +6,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton'
+import LoadingButton from '@mui/lab/LoadingButton';
+import { LoadingButtonIndicator } from 'src/components/LoadingButton';
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
 import {useRouter} from "next/router";
@@ -64,17 +65,8 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                             alignItems:'center',
                             p: '10px'
                             }}
-                            >
-                            <LoadingButton
-                                loading
-                                loadingPosition="start"
-                                variant="contained"
-                                sx={{
-                                    height:'60px', width:'200px'
-                                    }}
-                            >
-                             Loading Quiz
-                           </LoadingButton>
+                        >
+                                <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={'contained'} height={'60px'} width={'200px'}  />
                        </Container>
 
                      : <Container
