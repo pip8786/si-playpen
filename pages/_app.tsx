@@ -8,7 +8,6 @@ import theme from 'src/util/theme';
 import createEmotionCache from 'src/util/createEmotionCache';
 import {useMemo} from "react";
 import superjson from "superjson";
-import  { Breakpoint, BreakpointProvider } from 'react-socks';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -28,13 +27,11 @@ export default function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <BreakpointProvider>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
             <Component {...parsedProps} />
         </ThemeProvider>
-        </BreakpointProvider>
       </CacheProvider>
   );
 }

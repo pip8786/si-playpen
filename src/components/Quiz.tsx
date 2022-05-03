@@ -4,14 +4,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 import {Button, Fade, Stack} from "@mui/material";
-
 import {useContext} from "react";
 import {QuizContext} from "src/context/QuizContext";
-import {Box} from "@mui/system";
+import {Box, maxWidth} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import  { Breakpoint } from 'react-socks';
+import MediaQuery from 'react-responsive'
 
 
 export const Quiz = () => {
@@ -85,21 +84,17 @@ export const Quiz = () => {
 
                 </Box>
 
-                {/*https://www.npmjs.com/package/react-socks - breakpoints for screen size responsiveness*/}
-                {/*this breakpoint is for 'medium(768) to xlarge(1200) devices' */}
-                <Breakpoint medium up>
+                {/* breakpoints came from a microsoft doc: https://docs.microsoft.com/en-us/windows/apps/design/layout/screen-sizes-and-breakpoints-for-responsive-design#:~:text=Small%20(smaller%20than%20640px),Large%20(1008px%20and%20larger) */}
+                {/*this mediaquery is for 'medium devices (641px) and up*/}
+                <MediaQuery minWidth={641}>
                     <Typography textAlign="center" marginTop={2} >{currentQIndex+1} of {quiz.questions.length}</Typography>
-                </Breakpoint>
+                </MediaQuery>
 
-                {/*this breakpoint is for small and xsmall devices */}
-                <Breakpoint small down>
+                {/*this mediaquery is for 'small devices (640px) and down*/}
+                <MediaQuery maxWidth={640}>
                     <Typography textAlign="center" marginTop={10} >{currentQIndex+1} of {quiz.questions.length}</Typography>
-                </Breakpoint>
+                </MediaQuery>
 
-                {/*this breakpoint is for x-small devices*/}
-                {/*<Breakpoint x-small only>
-                    <Typography textAlign="center" marginTop={5} >{currentQIndex+1} of {quiz.questions.length}</Typography>
-                </Breakpoint>*/}
             </Paper>
         </Container>
 
