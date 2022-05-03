@@ -93,8 +93,7 @@ export const getServerSideProps: GetServerSideProps = async ({res,query}) => {
         }
         return {props:{super:superjson.stringify({experience, summary, results:individual, isResults})}}
     } else {
-        notFound: true;
-        return {props:{}};
+        return {notFound: true};
     }
 
 }
