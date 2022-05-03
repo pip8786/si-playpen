@@ -66,7 +66,7 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                             p: '10px'
                             }}
                         >
-                                <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={'contained'} height={'60px'} width={'200px'}  />
+                            <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={'contained'} height={'60px'} width={'200px'} loadingInput={'Loading Quiz'} />
                        </Container>
 
                      : <Container

@@ -8,9 +8,10 @@ export type LoadingButtonProps = {
   variant?: "text" | "outlined" | "contained"
   height: string
   width: string
+  loadingInput: string
 }
 
-export const LoadingButtonIndicator = ({loading, loadingPosition, variant, height, width}: LoadingButtonProps) => {
+export const LoadingButtonIndicator = ({loading, loadingPosition, variant, height, width, loadingInput}: LoadingButtonProps) => {
 
   return (
 
@@ -23,7 +24,7 @@ export const LoadingButtonIndicator = ({loading, loadingPosition, variant, heigh
               width:{width}
               }}
       >
-        Loading Quiz
+        {loadingInput}
       </LoadingButton>
 
   )
