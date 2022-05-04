@@ -81,11 +81,11 @@ export const QuizResults = () => {
                     display: "flex",
                     justifyContent: "space-between"
                 }}>
-                {/*if loading is true, show loading circle, else show Retake Quiz link*/}
-                {loading
-                ? <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={"text"} height={'30px'} width={'150px'} loadingInput={"Loading Quiz"}/> 
-                : <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
-                }
+                
+                
+                {/* <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={"text"} height={'30px'} width={'150px'} loadingInput={"Loading Quiz"}/>  */}
+                <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
+                
 
                     <Box sx={{
                         display: "flex",
