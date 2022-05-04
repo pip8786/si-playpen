@@ -10,13 +10,15 @@ import {Box, maxWidth} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import MediaQuery from 'react-responsive'
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 export const Quiz = () => {
     const router = useRouter();
     const {experience} = useContext(ExperienceContext);
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
+    const theme = useTheme();
 
     const answer = async (index:number) => {
         if(currentQIndex === quiz.questions.length - 1) {
@@ -84,16 +86,18 @@ export const Quiz = () => {
 
                 </Box>
 
+
+
                 {/* breakpoints came from a microsoft doc: https://docs.microsoft.com/en-us/windows/apps/design/layout/screen-sizes-and-breakpoints-for-responsive-design#:~:text=Small%20(smaller%20than%20640px),Large%20(1008px%20and%20larger) */}
                 {/*this mediaquery is for 'medium devices (641px) and up*/}
-                <MediaQuery minWidth={641}>
+                {/* <MediaQuery minWidth={641}>
                     <Typography textAlign="center" marginTop={2} >{currentQIndex+1} of {quiz.questions.length}</Typography>
                 </MediaQuery>
 
                 {/*this mediaquery is for 'small devices (640px) and down*/}
-                <MediaQuery maxWidth={640}>
+                {/* <MediaQuery maxWidth={640}>
                     <Typography textAlign="center" marginTop={10} >{currentQIndex+1} of {quiz.questions.length}</Typography>
-                </MediaQuery>
+                </MediaQuery> */} 
 
             </Paper>
         </Container>
