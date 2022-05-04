@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {Button} from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton';
 import { LoadingButtonIndicator } from 'src/components/LoadingButton';
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
@@ -53,11 +52,8 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
               }}
           >
              <Image src={`/images/${experience.shortcode}/1.png`} width={500} height={333}  alt="Girl with Magnifying Glass"/>
-             <Box height="55px" position="relative"
-             >
-                {/*if loading is true, display loading indicator; is false, display 'Launch Quiz' button*/}
-                 {loading
-                     ? <Container
+             <Box height="55px" position="relative">
+             <Container
                             sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -67,29 +63,8 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                             }}
                         >
                             <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={'contained'} height={'60px'} width={'200px'} loadingInput={'Loading Quiz'} />
-                       </Container>
+             </Container>
 
-                     : <Container
-                            sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems:'center',
-                            p: '10px'
-                            }}
-                        >
-                             <Button
-                                sx = {{
-                                    height: '60px',
-                                    width: '200px'
-                                }}
-                                   variant="contained"
-                                   size="large"
-                                   onClick={()=>loadingCuriousExperience()}
-                               >
-                               Take Quiz
-                               </Button>
-                       </Container>
-                 }
              </Box>
           </Paper>
       </Container>
