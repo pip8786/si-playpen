@@ -15,7 +15,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { LoadingButtonIndicator } from 'src/components/LoadingButton';
+import { LoadingIndicator } from 'src/components/LoadingIndicator';
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -81,11 +81,19 @@ export const QuizResults = () => {
                     display: "flex",
                     justifyContent: "space-between"
                 }}>
-                
-                
-                {/* <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={"text"} height={'30px'} width={'150px'} loadingInput={"Loading Quiz"}/>  */}
-                <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
-                
+                             
+                       <LoadingIndicator 
+                                loadingInput={'Loading Quiz'}
+                                loading={true} 
+                                loadingPosition={'start'}
+                                varient={'text'}
+                                sx={{
+                                        height:'30px', 
+                                        width:'150px'}}>
+                                <Link href="/curious" underline="hover">
+                                Retake Quiz
+                                </Link>
+                            </LoadingIndicator>
 
                     <Box sx={{
                         display: "flex",

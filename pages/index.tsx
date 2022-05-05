@@ -5,13 +5,13 @@ import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {Button} from "@mui/material";
-import { LoadingButtonIndicator } from 'src/components/LoadingButton';
+import { LoadingIndicator } from 'src/components/LoadingIndicator';
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
-import {useRouter} from "next/router";
 import {useState} from "react";
 import superjson from "superjson";
+import { Link } from '@mui/material';
+import { truncate } from 'fs';
 
 
 type ExperiencePageProps = {
@@ -20,14 +20,6 @@ type ExperiencePageProps = {
 
 const Home: NextPage<ExperiencePageProps> = ({experience}) => {
 
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-
-    const loadingCuriousExperience = () => {
-        //onClick for "Launch Quiz", loading indicator occurs while waiting to be pushed to '/curious' page
-       setLoading(true);
-       router.push('/curious');
-    }
 
   return (
 
@@ -53,7 +45,7 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
           >
              <Image src={`/images/${experience.shortcode}/1.png`} width={500} height={333}  alt="Girl with Magnifying Glass"/>
              <Box height="55px" position="relative">
-             <Container
+             <Container border='1px solid black'
                             sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -62,7 +54,35 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                             p: '10px'
                             }}
                         >
-                            <LoadingButtonIndicator loading={true} loadingPosition={'start'} variant={'contained'} height={'60px'} width={'200px'} loadingInput={'Loading Quiz'} />
+
+                    <LoadingIndicator 
+                        loadingInput={'Loading Quiz'}
+                        loading={true} 
+                        loadingPosition={'start'}
+                        varient={'text'}
+                        sx={{
+                                height:'60px', 
+                                width:'175px'}}>
+                        
+                        <Link href="/curious" underline="none"
+                            sx={{
+                                textTransform: 'uppercase',
+                                fontWeight: '500',
+                                color: 'white',
+                                backgroundColor: '#2ca2a3',
+                                borderRadius: '4px',
+                                boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+                                py: '20px', 
+                                px: '50px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems:'center'}}
+                        >
+                        Take Quiz
+                        </Link>
+                    </LoadingIndicator>
+
              </Container>
 
              </Box>
