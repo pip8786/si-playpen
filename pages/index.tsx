@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import { LoadingIndicator } from 'src/components/LoadingIndicator';
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
-import {useState} from "react";
 import superjson from "superjson";
 import { Link } from '@mui/material';
 
