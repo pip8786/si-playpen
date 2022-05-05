@@ -11,7 +11,6 @@ import Image from 'next/image';
 import {useState} from "react";
 import superjson from "superjson";
 import { Link } from '@mui/material';
-import { truncate } from 'fs';
 
 
 type ExperiencePageProps = {
