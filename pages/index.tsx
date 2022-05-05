@@ -12,7 +12,6 @@ import {useState} from "react";
 import superjson from "superjson";
 import { Link } from '@mui/material';
 
-
 type ExperiencePageProps = {
     experience: ExperienceWithContent
 }
@@ -44,7 +43,7 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
           >
              <Image src={`/images/${experience.shortcode}/1.png`} width={500} height={333}  alt="Girl with Magnifying Glass"/>
              <Box height="55px" position="relative">
-             <Container border='1px solid black'
+             <Container
                             sx={{
                             display: 'flex',
                             justifyContent: 'center',
@@ -58,7 +57,7 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                         loadingInput={'Loading Quiz'}
                         loading={true} 
                         loadingPosition={'start'}
-                        varient={'text'}
+                        variant={'text'}
                         sx={{
                                 height:'60px', 
                                 width:'175px'}}>
