@@ -83,7 +83,7 @@ export const QuizResults = () => {
                 }}>
                              
                        <LoadingIndicator 
-                                loadingInput={'Loading Quiz'}
+                                loadingLabel={'Loading Quiz'}
                                 loadingPosition={'start'}
                                 variant={'text'}
                                 sx={{

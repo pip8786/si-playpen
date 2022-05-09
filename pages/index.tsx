@@ -9,7 +9,7 @@ import { LoadingIndicator } from 'src/components/LoadingIndicator';
 import Paper from "@mui/material/Paper";
 import Image from 'next/image';
 import superjson from "superjson";
-import { Link } from '@mui/material';
+import Link from 'src/components/Link';
 
 type ExperiencePageProps = {
     experience: ExperienceWithContent
@@ -53,12 +53,13 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                         >
 
                     <LoadingIndicator 
-                        loadingInput={'Loading Quiz'}
+                        loadingLabel={'Loading Quiz'}
                         loadingPosition={'start'}
                         variant={'text'}
                         sx={{
                                 height:'60px', 
-                                width:'175px'}}>
+                                width:'175px'}}
+                    >
                         
                         <Link href="/curious" underline="none"
                             sx={{

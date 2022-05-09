@@ -1,15 +1,19 @@
 import React, {ReactNode, useState} from "react";
-import {Button} from "@mui/material";
-import {useRouter} from "next/router";
-import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
+import { ButtonProps } from "@mui/material/Button";
+import LoadingButton from '@mui/lab/LoadingButton';
+// workaround for LoadingButton - LoadingButtonProps freezes typescript compilation & the build remains stuck on "Checking validity of types"
+// https://github.com/mui/material-ui/issues/30038
 
+type LoadingButtonProps = ButtonProps & {
+  loadingPosition: 'start' | 'end' | 'center';
+}
 
-export type LoadingIndicatorProps = LoadingButtonProps & {
-  loadingInput: string
+type LoadingIndicatorProps = LoadingButtonProps & {
+  loadingLabel: string
   children: ReactNode
 }
 
-export const LoadingIndicator = ({loadingInput, children, ...rest}: LoadingIndicatorProps) => {
+export const LoadingIndicator = ({loadingLabel, children, ...rest}: LoadingIndicatorProps) => {
 
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +24,7 @@ export const LoadingIndicator = ({loadingInput, children, ...rest}: LoadingIndic
       ? <LoadingButton
       loading={loading}
       {...rest}
-      >{loadingInput}
+      >{loadingLabel}
       </LoadingButton>
 
       : React.isValidElement(children) ? React.cloneElement(children, {onClick: ()=>setLoading(true)}) : children
