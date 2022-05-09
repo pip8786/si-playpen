@@ -18,6 +18,7 @@ export const LoadingIndicator = ({loadingInput, children, ...rest}: LoadingIndic
       { loading
 
       ? <LoadingButton
+      loading={loading}
       {...rest}
       >{loadingInput}
       </LoadingButton>

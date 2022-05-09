@@ -84,9 +84,8 @@ export const QuizResults = () => {
                              
                        <LoadingIndicator 
                                 loadingInput={'Loading Quiz'}
-                                loading={true} 
                                 loadingPosition={'start'}
-                                varient={'text'}
+                                variant={'text'}
                                 sx={{
                                         height:'30px', 
                                         width:'150px'}}>

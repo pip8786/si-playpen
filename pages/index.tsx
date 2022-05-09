@@ -54,7 +54,6 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
 
                     <LoadingIndicator 
                         loadingInput={'Loading Quiz'}
-                        loading={true} 
                         loadingPosition={'start'}
                         variant={'text'}
                         sx={{
