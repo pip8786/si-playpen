@@ -61,14 +61,9 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                                 width:'175px'}}
                     >
                         
-                        <Link href="/curious" underline="none"
+                        <Link href="/curious" underline="hover"
                             sx={{
-                                textTransform: 'uppercase',
-                                fontWeight: '500',
-                                color: 'white',
-                                backgroundColor: '#2ca2a3',
-                                borderRadius: '4px',
-                                boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+                                fontSize: '20px',
                                 py: '20px', 
                                 px: '50px',
                                 display: 'flex',
