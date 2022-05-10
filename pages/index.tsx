@@ -63,13 +63,8 @@ const Home: NextPage<ExperiencePageProps> = ({experience}) => {
                         
                         <Link href="/curious" underline="hover"
                             sx={{
-                                fontSize: '20px',
-                                py: '20px', 
-                                px: '50px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                flexDirection: 'column',
-                                alignItems:'center'}}
+                                fontSize: '20px'
+                            }}
                         >
                         Take Quiz
                         </Link>
