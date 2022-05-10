@@ -14,10 +14,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
-import CircularProgress from '@mui/material/CircularProgress';
-import LoadingButton from '@mui/lab/LoadingButton'
-import {Button} from "@mui/material";
-import {useRouter} from "next/router";
+import { LoadingIndicator } from 'src/components/LoadingIndicator';
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -83,21 +80,18 @@ export const QuizResults = () => {
                     display: "flex",
                     justifyContent: "space-between"
                 }}>
-                {/*if loading is true, show loading circle, else show Retake Quiz link*/}
-                {loading
-                ? <LoadingButton
-                      loading
-                      size="small"
-                      loadingPosition="start"
-                      variant="text"
-                      sx={{
-                          height:'30px', width:'150px'
-                          }}
-                  >
-                   Loading Quiz
-                </LoadingButton>
-                : <Link onClick={()=>setLoading(true)} href="/curious">Retake Quiz</Link>
-                }
+                             
+                       <LoadingIndicator 
+                                loadingLabel={'Loading Quiz'}
+                                loadingPosition={'start'}
+                                variant={'text'}
+                                sx={{
+                                        height:'30px', 
+                                        width:'150px'}}>
+                                <Link href="/curious" underline="hover">
+                                Retake Quiz
+                                </Link>
+                            </LoadingIndicator>
 
                     <Box sx={{
                         display: "flex",
