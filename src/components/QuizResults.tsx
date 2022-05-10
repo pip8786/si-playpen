@@ -14,7 +14,6 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { LoadingIndicator } from 'src/components/LoadingIndicator';
 
 export const QuizResults = () => {
