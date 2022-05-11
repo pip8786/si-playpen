@@ -16,6 +16,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 	},[level, max, min]);
 	return (
 		<Box sx={{
+			border: 'solid 1px black',
 			display: "flex",
 			flexDirection: "column",
 			alignItems: "center",
@@ -25,6 +26,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 				width: "100%",
 			}}>Your curiosity rating:</Typography>
 			<Box sx={{
+				border: 'dotted 2px green',
 				mt: 2,
 				position: "relative",
 				width: 450,

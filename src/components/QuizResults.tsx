@@ -14,6 +14,9 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
+import { styled } from '@mui/material/styles';
+import { makeStyles, useTheme } from '@material-ui/styles'
+//remove package if not using
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -56,6 +59,8 @@ export const QuizResults = () => {
             <HeadWithMeta title={`Curiosity Score: ${totalAnswered} of ${totalPossible}`}/>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
+            
+            <Container maxWidth="md">
             <Paper
                 elevation={3}
                 sx={{
@@ -63,7 +68,9 @@ export const QuizResults = () => {
                     m:1
                 }}
             >
-                <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
+                <Container maxWidth='sm'>
+                    <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
+                </Container>
                 {result && <Typography>{result.text}</Typography>}
                 {summary && <Summary {...summary}/>}
 
@@ -98,6 +105,7 @@ export const QuizResults = () => {
                 </Box>
 
             </Paper>
+            </Container>
         </Container>
     )
 }
