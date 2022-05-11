@@ -24,7 +24,7 @@ export const Quiz = () => {
           marginTop: '2px'
         },
         [theme.breakpoints.down("sm")]: {
-          marginTop: '50px'
+          marginTop: '75px'
         }
       }));
 
