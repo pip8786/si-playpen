@@ -45,8 +45,15 @@ export const QuizResults = () => {
     };
 
     return (
-        <Container maxWidth="md"
+        <Container
                    sx={{
+                       maxWidth: {
+                        xs: 'xs',
+                        sm: 'sm',
+                        md: 'md',
+                        lg: 'md',
+                        xl: 'md'
+                       },
                        my: 4,
                        display: 'flex',
                        flexDirection: 'column',
