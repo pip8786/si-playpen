@@ -15,6 +15,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import { LoadingIndicator } from 'src/components/LoadingIndicator';
+import { styled } from '@mui/material/styles'
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -43,6 +44,23 @@ export const QuizResults = () => {
     const onFacebookClick = () => {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`, "_blank");
     };
+
+    const Breakpoint = styled('div')(({ theme }) => ({
+        [theme.breakpoints.down("sm")]: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        [theme.breakpoints.up("sm")]: {
+            mt: 4,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: 'center'
+        }
+    })
+    
+    )
 
     return (
         <Container
@@ -86,13 +104,9 @@ export const QuizResults = () => {
 
                     <Link href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</Link>
                 </Box>
-                <Box sx={{
-                    mt: 4,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: 'center'
-                }}>
-                             
+                
+                <Box sx={{mt: 4}}>
+                    <Breakpoint>
                        <LoadingIndicator 
                                 loadingLabel={'Loading Quiz'}
                                 loadingPosition={'start'}
@@ -121,6 +135,7 @@ export const QuizResults = () => {
                             <IconButton onClick={onFacebookClick}><FacebookIcon/></IconButton>
                         </Tooltip>
                     </Box>
+                    </Breakpoint>
                 </Box>
 
             </Paper>
