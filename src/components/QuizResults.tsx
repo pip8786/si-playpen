@@ -14,9 +14,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
-import { styled } from '@mui/material/styles';
-import { makeStyles, useTheme } from '@material-ui/styles'
-//remove package if not using
+import { LoadingIndicator } from 'src/components/LoadingIndicator';
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -28,6 +26,7 @@ export const QuizResults = () => {
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
     const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
+    const [loading, setLoading] = useState(false);
 
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);
@@ -44,7 +43,6 @@ export const QuizResults = () => {
     const onFacebookClick = () => {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`, "_blank");
     };
-
 
     return (
         <Container maxWidth="md"
@@ -78,14 +76,28 @@ export const QuizResults = () => {
                     display: "flex",
                     justifyContent: "center"
                 }}>
+
                     <Link href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</Link>
                 </Box>
                 <Box sx={{
                     mt: 4,
                     display: "flex",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    alignItems: 'center'
                 }}>
-                    <Link href={"/curious"}>Retake Quiz</Link>
+                             
+                       <LoadingIndicator 
+                                loadingLabel={'Loading Quiz'}
+                                loadingPosition={'start'}
+                                variant={'text'}
+                                sx={{
+                                        height:'30px', 
+                                        width:'150px'}}>
+                                <Link href="/curious" underline="hover">
+                                Retake Quiz
+                                </Link>
+                            </LoadingIndicator>
+
                     <Box sx={{
                         display: "flex",
                         justifyContent: "space-between",

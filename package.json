@@ -15,6 +15,7 @@
     "@emotion/styled": "latest",
     "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "latest",
+    "@mui/lab": "^5.0.0-alpha.80",
     "@mui/material": "latest",
     "@prisma/client": "^3.11.1",
     "next": "latest",
