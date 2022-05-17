@@ -14,7 +14,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 	const [degrees, setDegrees] = useState(0);
 	const el = useRef<HTMLDivElement | null>(null);
 	const {width, height} = useDimensionObserver(el);
-	
+
 	//segmntedCircleWidth is ~60% of referenced box (el) width */}
 	//segmentedCircleHeight is the half segmentedCircleWidth width*/}
 	const segmentedCircleWidth = Math.round(width*0.6356);
@@ -40,8 +40,8 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 					<Box sx={{
 						mt: 2,
 						position: "relative",
-						width: `${segmentedCircleWidth}`, 
-						height: `${segmentedCircleHeight}`,
+						width: segmentedCircleWidth, 
+						height: segmentedCircleHeight
 					}}>
 					
 					<SegmentedCircle innerRadius={segmentedCircleWidth*0.067} outerRadius={segmentedCircleHeight} spacing={4} />
