@@ -27,7 +27,6 @@ export const QuizResults = () => {
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
     const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
-    const [loading, setLoading] = useState(false);
 
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);
@@ -45,7 +44,7 @@ export const QuizResults = () => {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`, "_blank");
     };
 
-    const Breakpoint = styled('div')(({ theme }) => ({
+    const BreakpointForBottomActions = styled('div')(({ theme }) => ({
         [theme.breakpoints.down("sm")]: {
             display: 'flex',
             flexDirection: 'column',
@@ -53,14 +52,10 @@ export const QuizResults = () => {
             alignItems: 'center'
         },
         [theme.breakpoints.up("sm")]: {
-            mt: 4,
             display: "flex",
             justifyContent: "space-between",
             alignItems: 'center'
-        }
-    })
-    
-    )
+        }}));
 
     return (
         <Container
@@ -91,9 +86,9 @@ export const QuizResults = () => {
                     m:1
                 }}
             >
-                <Container maxWidth='sm'>
-                    <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
-                </Container>
+
+                <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
+
                 {result && <Typography>{result.text}</Typography>}
                 {summary && <Summary {...summary}/>}
 
@@ -106,7 +101,7 @@ export const QuizResults = () => {
                 </Box>
                 
                 <Box sx={{mt: 4}}>
-                    <Breakpoint>
+                    <BreakpointForBottomActions>
                        <LoadingIndicator 
                                 loadingLabel={'Loading Quiz'}
                                 loadingPosition={'start'}
@@ -135,7 +130,7 @@ export const QuizResults = () => {
                             <IconButton onClick={onFacebookClick}><FacebookIcon/></IconButton>
                         </Tooltip>
                     </Box>
-                    </Breakpoint>
+                    </BreakpointForBottomActions>
                 </Box>
 
             </Paper>
