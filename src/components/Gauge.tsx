@@ -40,8 +40,8 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 					<Box sx={{
 						mt: 2,
 						position: "relative",
-						width: segmentedCircleWidth, 
-						height: segmentedCircleHeight
+						width: `${segmentedCircleWidth}`, 
+						height: `${segmentedCircleHeight}`
 					}}>
 					
 					<SegmentedCircle innerRadius={segmentedCircleWidth*0.067} outerRadius={segmentedCircleHeight} spacing={4} />
