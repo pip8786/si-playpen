@@ -11,12 +11,22 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
+import { styled } from '@mui/material/styles';
 
 export const Quiz = () => {
     const router = useRouter();
     const {experience} = useContext(ExperienceContext);
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
+
+    const Breakpoint = styled('div')(({ theme }) => ({
+        [theme.breakpoints.up("sm")]: {
+          marginTop: '2px'
+        },
+        [theme.breakpoints.down("sm")]: {
+          marginTop: '75px'
+        }
+      }));
 
     const answer = async (index:number) => {
 
@@ -101,8 +111,15 @@ export const Quiz = () => {
                         </Fade>
                     ))}
                 </Box>
-                <Typography textAlign="center" marginTop={2}>{currentQIndex+1} of {quiz.questions.length}</Typography>
+                
+                {/* https://mui.com/material-ui/customization/breakpoints/ */}
+                <Breakpoint>
+                    <Typography textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
+                </Breakpoint>
+
             </Paper>
         </Container>
+
+
     )
 }
