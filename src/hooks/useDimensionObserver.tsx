@@ -8,7 +8,7 @@ interface ResizeObserverEntry {
 
 export function useDimensionObserver(ref: RefObject<HTMLElement>) {
 
-    const [width, setWidth] = useState<number>(0); //added 0 so that I wouldnt get the error: "Type 'number | undefined' is not assignable to type 'number'. 
+    const [width, setWidth] = useState<number>(0); 
     const [height, setHeight] = useState<number>(0);
 
     useEffect(() => {

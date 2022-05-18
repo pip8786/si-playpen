@@ -21,7 +21,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-responsive": "^9.0.0-beta.6",
+    "resize-observer-polyfill": "^1.5.1",
     "sharp": "^0.30.3",
     "superjson": "^1.8.1"
   },
