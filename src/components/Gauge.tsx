@@ -36,7 +36,6 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 			<Typography variant="h4" sx={{
 				width: "100%",
 			}}>Your curiosity rating:</Typography>
-			{/* <Typography>W: {width}, H: {height}</Typography> */}
 					<Box sx={{
 						mt: 2,
 						position: "relative",
@@ -44,7 +43,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 						height: `${segmentedCircleHeight}`
 					}}>
 					
-					<SegmentedCircle innerRadius={segmentedCircleWidth*0.067} outerRadius={segmentedCircleHeight} spacing={4} />
+					<SegmentedCircle innerRadius={segmentedCircleWidth*0.067} outerRadius={segmentedCircleHeight} spacing={Math.round(segmentedCircleWidth*0.00889)} />
 
 					<img src="/images/needle.svg" alt={`Gauge needle pointing to ${level}`} style={{
 					position: "absolute",
