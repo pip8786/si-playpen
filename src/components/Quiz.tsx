@@ -12,12 +12,14 @@ import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
 import { styled } from '@mui/material/styles';
+import { motion } from 'framer-motion';
 
 export const Quiz = () => {
     const router = useRouter();
     const {experience} = useContext(ExperienceContext);
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
+
 
     const Breakpoint = styled('div')(({ theme }) => ({
         [theme.breakpoints.up("sm")]: {
@@ -78,44 +80,48 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
+                <motion.div 
+                    initial={{opacity: 0 }}
+                    animate={{opacity: 1}}
+                    transition={{duration: 1}}
+                >
+                    <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
+                </motion.div>
 
 
-                <Box height="275px" position="relative">
-                    {quiz.questions.map((q, i) => (
-                        <Fade in={currentQIndex === i} key={i} timeout={1000}>
-                            <Box position="absolute" top={0} right={0} bottom={0} left={0}>
-                                <Typography variant="h6" my={2}>{q.text}</Typography>
-                                {/*if loading is true, show loading circle; if false, show quiz questions */}
-                                {loading
-                                    ? <Container
-                                        sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        flexDirection:'column',
-                                        alignItems:'center'
-                                        }}
-                                       >
-                                        <CircularProgress size={100}/>
-                                        <Typography variant='body1'>Loading your results...</Typography>
-                                      </Container>
+                <Box>
+                    <motion.div 
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    transition={{duration: 1}}
+                    >
+                            <Typography variant="h6" my={2}>{quiz.questions[currentQIndex].text}</Typography>
+                            {/*if loading is true, show loading circle; if false, show quiz questions */}
+                            {loading
+                                ? <Container
+                                    sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    flexDirection:'column',
+                                    alignItems:'center'
+                                    }}
+                                >
+                                    <CircularProgress size={100}/>
+                                    <Typography variant='body1'>Loading your results...</Typography>
+                                </Container>
 
-                                    : <Stack alignItems="stretch" spacing={2}>
-                                        {q.answers.map((a, index) => (
-                                            <Button variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
-                                        ))
-                                        }
-                                       </Stack>
-                                }
-                            </Box>
-                        </Fade>
-                    ))}
+                                : <Stack alignItems="stretch" spacing={2}>
+                                    {quiz.questions[currentQIndex].answers.map((a, index) => (
+                                        <Button sx={{maxWidth: 500}} variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
+                                    ))
+                                    }
+                                </Stack>
+                            }
+                        </motion.div>
                 </Box>
                 
-                {/* https://mui.com/material-ui/customization/breakpoints/ */}
-                <Breakpoint>
-                    <Typography textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
-                </Breakpoint>
+                <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
+
 
             </Paper>
         </Container>
