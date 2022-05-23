@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -11,8 +12,8 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import { styled } from '@mui/material/styles';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
+import { Opacity } from '@mui/icons-material';
 
 export const Quiz = () => {
     const router = useRouter();
@@ -20,19 +21,32 @@ export const Quiz = () => {
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
 
-
-    const Breakpoint = styled('div')(({ theme }) => ({
-        [theme.breakpoints.up("sm")]: {
-          marginTop: '2px'
+    //variables for animation
+    const controls = useAnimation()
+    const initalOpacity = 0.5
+    const animationVariants = {
+        hidden: {
+            opacity: 0
         },
-        [theme.breakpoints.down("sm")]: {
-          marginTop: '75px'
+        show: {
+            opacity: 1, 
+            transition: {
+                duration: 1
+            }
         }
-      }));
+    }
+
+    //start animation on page render
+    useEffect(() => {
+        controls.start("show");
+    });
 
     const answer = async (index:number) => {
+        //set the opacity back to initial value and restart animation
+        controls.set({opacity: initalOpacity})
 
         if(currentQIndex === quiz.questions.length - 1) {
+            controls.set({opacity: 1})
             setLoading(true);
             const newValue = [...answers, index];
             const score = newValue.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
@@ -59,7 +73,7 @@ export const Quiz = () => {
             answerQuestion(index);
         }
     }
-
+    
     return (
         <Container maxWidth="md"
                    sx={{
@@ -80,21 +94,16 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-                <motion.div 
-                    initial={{opacity: 0 }}
-                    animate={{opacity: 1}}
-                    transition={{duration: 1}}
-                >
-                    <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
-                </motion.div>
 
+                <motion.div 
+                    variants={animationVariants}
+                    initial={{ opacity: initalOpacity }}
+                    animate={controls}
+                >
+
+                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
 
                 <Box>
-                    <motion.div 
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    transition={{duration: 1}}
-                    >
                             <Typography variant="h6" my={2}>{quiz.questions[currentQIndex].text}</Typography>
                             {/*if loading is true, show loading circle; if false, show quiz questions */}
                             {loading
@@ -110,15 +119,16 @@ export const Quiz = () => {
                                     <Typography variant='body1'>Loading your results...</Typography>
                                 </Container>
 
-                                : <Stack alignItems="stretch" spacing={2}>
+                                :
+                                 <Stack alignItems="stretch" spacing={2}>
                                     {quiz.questions[currentQIndex].answers.map((a, index) => (
                                         <Button sx={{maxWidth: 500}} variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
                                     ))
                                     }
                                 </Stack>
                             }
-                        </motion.div>
                 </Box>
+                </motion.div>
                 
                 <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
 
