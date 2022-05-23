@@ -31,7 +31,7 @@ export const Quiz = () => {
         show: {
             opacity: 1, 
             transition: {
-                duration: 1
+                duration: 1.5
             }
         }
     }
