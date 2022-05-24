@@ -1,9 +1,9 @@
-import React, {useContext} from "react";
+import React, {ReactNode, useContext} from "react";
 import {QuizContext} from "../context/QuizContext";
 import Head from "next/head";
 import {ExperienceContext} from "../context/ExperienceContext";
 
-export const HeadWithMeta:React.FC<{title:string}> = ({children, title}) => {
+export const HeadWithMeta:React.FC<{title:string, children?:ReactNode}> = ({children, title}) => {
 	const {quiz, results} = useContext(QuizContext);
 	const {experience} = useContext(ExperienceContext);
 	let metaTags;
