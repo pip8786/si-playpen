@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import Image from 'next/image';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -12,8 +11,7 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import { motion, useAnimation } from 'framer-motion';
-import { Opacity } from '@mui/icons-material';
+import styles from './quiz.module.css'
 
 export const Quiz = () => {
     const router = useRouter();
@@ -71,15 +69,9 @@ export const Quiz = () => {
                 }}
             >
 
-                <motion.div
-                    exit={{ opacity:0 }}
-                    initial={{ opacity:0 }}
-                    animate={{ opacity:1 }}
-                    key={currentQIndex}
-                >
+                <Image className={styles.fade} key={currentQIndex} src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
 
-                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
-
+                
                 <Box>
                             <Typography variant="h6" my={2}>{quiz.questions[currentQIndex].text}</Typography>
                             {/*if loading is true, show loading circle; if false, show quiz questions */}
@@ -99,13 +91,13 @@ export const Quiz = () => {
                                 :
                                  <Stack alignItems="stretch" spacing={2}>
                                     {quiz.questions[currentQIndex].answers.map((a, index) => (
-                                        <Button sx={{maxWidth: 500}} variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
+                                        <Button className={styles.fade} sx={{maxWidth: 500}} variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
                                     ))
                                     }
                                 </Stack>
                             }
                 </Box>
-                </motion.div>
+                
                 
                 <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
 
