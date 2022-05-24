@@ -21,32 +21,8 @@ export const Quiz = () => {
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
 
-    //variables for animation
-    const controls = useAnimation()
-    const initalOpacity = 0.5
-    const animationVariants = {
-        hidden: {
-            opacity: 0
-        },
-        show: {
-            opacity: 1, 
-            transition: {
-                duration: 1.5
-            }
-        }
-    }
-
-    //start animation on page render
-    useEffect(() => {
-        controls.start("show");
-    });
-
     const answer = async (index:number) => {
-        //set the opacity back to initial value and restart animation
-        controls.set({opacity: initalOpacity})
-
         if(currentQIndex === quiz.questions.length - 1) {
-            controls.set({opacity: 1})
             setLoading(true);
             const newValue = [...answers, index];
             const score = newValue.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
@@ -95,10 +71,11 @@ export const Quiz = () => {
                 }}
             >
 
-                <motion.div 
-                    variants={animationVariants}
-                    initial={{ opacity: initalOpacity }}
-                    animate={controls}
+                <motion.div
+                    exit={{ opacity:0 }}
+                    initial={{ opacity:0 }}
+                    animate={{ opacity:1 }}
+                    key={currentQIndex}
                 >
 
                 <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
