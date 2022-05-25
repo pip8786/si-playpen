@@ -1,4 +1,4 @@
-import React, {createContext, FC} from "react";
+import React, {createContext, FC, ReactNode} from "react";
 import {ExperienceWithContent} from "pages/api/experience/[shortcode]";
 
 type ContextProps = {
@@ -7,7 +7,7 @@ type ContextProps = {
 
 export const ExperienceContext = createContext<ContextProps>({} as ContextProps);
 
-let ExperienceContextProvider: FC<ContextProps> = ({children, experience}) => {
+let ExperienceContextProvider: FC<ContextProps & {children: ReactNode}> = ({children, experience}) => {
 	return <ExperienceContext.Provider value={{
 		experience
 	}}>

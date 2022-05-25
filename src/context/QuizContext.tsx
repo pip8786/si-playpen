@@ -1,5 +1,5 @@
 import {Prisma, QuizUserAnswers} from "@prisma/client";
-import React, {createContext, Dispatch, FC, SetStateAction, useState} from "react";
+import React, {createContext, Dispatch, FC, ReactNode, SetStateAction, useState} from "react";
 
 const quizWithContent = Prisma.validator<Prisma.QuizArgs>()({
 	include: {
@@ -43,7 +43,7 @@ type ContextProps = {
 
 export const QuizContext = createContext<ContextProps>({} as ContextProps);
 
-let QuizContextProvider: FC<Partial<ContextProps>> = ({children, quiz, results, summary}) => {
+let QuizContextProvider: FC<Partial<ContextProps> & {children: ReactNode}> = ({children, quiz, results, summary}) => {
 	const [currentQIndex, setCurrentQIndex] = useState(0);
 	const [answers, setAnswers] = useState<number[]>([]);
 
