@@ -52,7 +52,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 					transformOrigin: `${0.86144 * needleWidth}px ${0.5 * needleHeight}px`,
 					transform: `rotate(${degrees}deg)`,
 					transition: "transform 1s 250ms",
-					bottom: 0,
+					bottom: -5,
 					left: needleWidth/2
 					}}/>
 					</Box>

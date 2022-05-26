@@ -12,7 +12,6 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
-import styles from './quiz.module.css'
 import { useDimensionObserver } from "src/hooks/useDimensionObserver";
 
 
@@ -23,9 +22,9 @@ export const Quiz = () => {
     const [loading, setLoading] = useState(false);
     const el = useRef<HTMLDivElement | null>(null);
 	const {width, height} = useDimensionObserver(el);
-    //the max width of the box is 500px and the min height is 260px
-    //at the rate that the width of the box is decreasing, the height is increasing
-    const updatingHeight = 260*(((500 - width)/500)+1);
+
+    const updatingHeight = (((width - (width*0.587))/width)+1)
+
 
     const answer = async (index:number) => {
 
@@ -60,8 +59,15 @@ export const Quiz = () => {
 
     
     return (
-        <Container maxWidth="md"
+        <Container ref={el}
                    sx={{
+                    maxWidth: {
+                        xs: 'xs',
+                        sm: 'sm',
+                        md: 'md',
+                        lg: 'md',
+                        xl: 'md'
+                       },
                        my: 4,
                        display: 'flex',
                        flexDirection: 'column',
@@ -79,16 +85,14 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-
-                <Box ref={el}>
-               
-                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
                 
-                    <Box height={updatingHeight} position="relative">
+                <Box>
+                    <Box position="relative" width={Math.round(width*0.587)} height={600}>
                     {quiz.questions.map((q, i) => (
-                        <Fade in={currentQIndex === i} key={i} timeout={1000}>
-                            <Box position="absolute" top={0} right={0} bottom={0} left={0}>
-                                <Typography variant="h6" my={2}>{q.text}</Typography>
+                    <Fade in={currentQIndex === i} key={i} timeout={1000}>
+                        <Box  position="absolute" top={0} right={0} bottom={0} left={0}>
+                            <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
+                            <Typography variant="h6" my={2}>{q.text}</Typography>
                                 {/*if loading is true, show loading circle; if false, show quiz questions */}
                                 {loading
                                     ? <Container
@@ -109,16 +113,14 @@ export const Quiz = () => {
                                         }
                                         </Stack>
                                 }
-                        
                             </Box>
                         </Fade>
-                    ))}
+                        ))}
                     </Box>
-                </Box>
-                
-                
-                <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
 
+                    <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
+
+                </Box>
 
             </Paper>
         </Container>
