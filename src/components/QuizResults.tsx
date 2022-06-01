@@ -15,6 +15,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import { LoadingIndicator } from 'src/components/LoadingIndicator';
+import { styled } from '@mui/material/styles'
 
 export const QuizResults = () => {
     const {quiz, results, summary} = useContext(QuizContext);
@@ -26,7 +27,6 @@ export const QuizResults = () => {
     const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
     const totalAnswered = results!.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
     const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
-    const [loading, setLoading] = useState(false);
 
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);
@@ -44,9 +44,29 @@ export const QuizResults = () => {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`, "_blank");
     };
 
+    const BreakpointForBottomActions = styled('div')(({ theme }) => ({
+        [theme.breakpoints.down("sm")]: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        [theme.breakpoints.up("sm")]: {
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: 'center'
+        }}));
+
     return (
-        <Container maxWidth="md"
+        <Container
                    sx={{
+                       maxWidth: {
+                        xs: 'xs',
+                        sm: 'sm',
+                        md: 'md',
+                        lg: 'md',
+                        xl: 'md'
+                       },
                        my: 4,
                        display: 'flex',
                        flexDirection: 'column',
@@ -57,6 +77,8 @@ export const QuizResults = () => {
             <HeadWithMeta title={`Curiosity Score: ${totalAnswered} of ${totalPossible}`}/>
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
+            
+            <Container maxWidth="md">
             <Paper
                 elevation={3}
                 sx={{
@@ -64,7 +86,9 @@ export const QuizResults = () => {
                     m:1
                 }}
             >
+
                 <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
+
                 {result && <Typography>{result.text}</Typography>}
                 {summary && <Summary {...summary}/>}
 
@@ -75,12 +99,9 @@ export const QuizResults = () => {
 
                     <Link href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</Link>
                 </Box>
-                <Box sx={{
-                    mt: 4,
-                    display: "flex",
-                    justifyContent: "space-between"
-                }}>
-                             
+                
+                <Box sx={{mt: 4}}>
+                    <BreakpointForBottomActions>
                        <LoadingIndicator 
                                 loadingLabel={'Loading Quiz'}
                                 loadingPosition={'start'}
@@ -109,9 +130,11 @@ export const QuizResults = () => {
                             <IconButton onClick={onFacebookClick}><FacebookIcon/></IconButton>
                         </Tooltip>
                     </Box>
+                    </BreakpointForBottomActions>
                 </Box>
 
             </Paper>
+            </Container>
         </Container>
     )
 }

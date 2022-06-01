@@ -1,16 +1,14 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 type SegmentedCircleProps = {
-	innerRadius?:number
-	outerRadius?:number
+	innerRadius:number
+	outerRadius:number
 	colors?:string[]
 	segments?:number
-	spacing?:number
+	spacing:number
 }
 
-export default function SegmentedCircle({innerRadius = 30, outerRadius = 225, colors = ["#4DB2BB","#02838E","#025661","#00363A"], segments = 4, spacing = 4}:SegmentedCircleProps) {
+export default function SegmentedCircle({innerRadius, outerRadius, colors = ["#4DB2BB","#02838E","#025661","#00363A"], segments = 4, spacing}:SegmentedCircleProps) {
 	return (
 		<svg width={outerRadius*2} height={outerRadius} viewBox={`0 0 ${outerRadius*2} ${outerRadius}`}>
 			<g transform={`translate(${outerRadius},${outerRadius})`}>

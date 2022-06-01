@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -11,12 +12,19 @@ import {Box} from "@mui/system";
 import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
+import { useDimensionObserver } from "src/hooks/useDimensionObserver";
+
 
 export const Quiz = () => {
     const router = useRouter();
     const {experience} = useContext(ExperienceContext);
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
+    const el = useRef<HTMLDivElement | null>(null);
+	const {width, height} = useDimensionObserver(el);
+
+    const updatingHeight = (((width - (width*0.587))/width)+1)
+
 
     const answer = async (index:number) => {
 
@@ -48,9 +56,18 @@ export const Quiz = () => {
         }
     }
 
+
+    
     return (
-        <Container maxWidth="md"
+        <Container ref={el}
                    sx={{
+                    maxWidth: {
+                        xs: 'xs',
+                        sm: 'sm',
+                        md: 'md',
+                        lg: 'md',
+                        xl: 'md'
+                       },
                        my: 4,
                        display: 'flex',
                        flexDirection: 'column',
@@ -68,14 +85,14 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-                <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
-
-
-                <Box height="275px" position="relative">
+                
+                <Box>
+                    <Box position="relative" width={Math.round(width*0.587)} height={600}>
                     {quiz.questions.map((q, i) => (
-                        <Fade in={currentQIndex === i} key={i} timeout={1000}>
-                            <Box position="absolute" top={0} right={0} bottom={0} left={0}>
-                                <Typography variant="h6" my={2}>{q.text}</Typography>
+                    <Fade in={currentQIndex === i} key={i} timeout={1000}>
+                        <Box  position="absolute" top={0} right={0} bottom={0} left={0}>
+                            <Image src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
+                            <Typography variant="h6" my={2}>{q.text}</Typography>
                                 {/*if loading is true, show loading circle; if false, show quiz questions */}
                                 {loading
                                     ? <Container
@@ -85,24 +102,33 @@ export const Quiz = () => {
                                         flexDirection:'column',
                                         alignItems:'center'
                                         }}
-                                       >
+                                        >
                                         <CircularProgress size={100}/>
                                         <Typography variant='body1'>Loading your results...</Typography>
-                                      </Container>
-
+                                        </Container>
                                     : <Stack alignItems="stretch" spacing={2}>
                                         {q.answers.map((a, index) => (
                                             <Button variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
                                         ))
                                         }
-                                       </Stack>
+                                        </Stack>
                                 }
                             </Box>
                         </Fade>
-                    ))}
+                        ))}
+                    </Box>
+
+                    <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
+
                 </Box>
-                <Typography textAlign="center" marginTop={2}>{currentQIndex+1} of {quiz.questions.length}</Typography>
+
             </Paper>
         </Container>
+
+
     )
+}
+
+function componentWillUnmount() {
+    throw new Error('Function not implemented.');
 }
