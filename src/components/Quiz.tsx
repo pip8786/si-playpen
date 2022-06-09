@@ -12,7 +12,7 @@ import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
 import { useDimensionObserver } from "src/hooks/useDimensionObserver";
-// import styles from "./quiz.module.css";
+
 
 
 export const Quiz = () => {
