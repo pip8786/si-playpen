@@ -12,7 +12,7 @@ import {ExperienceContext} from "../context/ExperienceContext";
 import {useRouter} from "next/router";
 import {HeadWithMeta} from "./HeadWithMeta";
 import { useDimensionObserver } from "src/hooks/useDimensionObserver";
-import styles from "./quiz.module.css";
+// import styles from "./quiz.module.css";
 
 
 export const Quiz = () => {
@@ -23,38 +23,8 @@ export const Quiz = () => {
     const el = useRef<HTMLDivElement | null>(null);
 	const {width, height} = useDimensionObserver(el);
 
-    const [fadeProp, setFadeProp] = useState ({
-        fade: styles.fadein
-      })
-
-      useEffect(() => {
-        // const timeout = setInterval(() => {
-        //         if (fadeProp.fade === styles.fadeout) {
-        //             setFadeProp({
-        //                 fade: styles.fadein
-        //             })
-        //         }
-
-        //      }, 2000);
-        // return () => clearInterval(timeout)
-        
-        if (fadeProp.fade === styles.fadeout) {
-            setFadeProp({
-                fade: styles.fadein
-            })
-        }
-
-        }, [fadeProp])
-
 
     const answer = async (index:number) => {
-
-        if(fadeProp.fade===styles.fadein){
-            setFadeProp({
-                fade: styles.fadeout
-            })
-        }
-        
 
         if(currentQIndex === quiz.questions.length - 1) {
             setLoading(true);
@@ -113,36 +83,42 @@ export const Quiz = () => {
                     m:1
                 }}
             >
-            <Image className ={fadeProp.fade} key={currentQIndex} src={`/images/${experience.shortcode}/${currentQIndex+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
-                
-                <Box className={fadeProp.fade}>
-                            <Typography variant="h6" my={2}>{quiz.questions[currentQIndex].text}</Typography>
-                            {/*if loading is true, show loading circle; if false, show quiz questions */}
-                            {loading
-                                ? <Container
-                                    sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    flexDirection:'column',
-                                    alignItems:'center'
-                                    }}
-                                >
-                                    <CircularProgress size={100}/>
-                                    <Typography variant='body1'>Loading your results...</Typography>
-                                </Container>
-                                :
-                                 <Stack alignItems="stretch" spacing={2}>
-                                    {quiz.questions[currentQIndex].answers.map((a, index) => (
-                                        <Button sx={{maxWidth: 500}} variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
-                                    ))
-                                    }
-                                </Stack>
-                            }
-                </Box>
+
+            <Box>
+                    <Box position="relative" width={Math.round(width*0.587)} height={600}>
+                    {quiz.questions.map((q, i) => (
+                    <Fade in={currentQIndex === i} key={i} timeout={1000}>
+                        <Box position="absolute" top={0} right={0} bottom={0} left={0}>
+                            <Image src={`/images/${experience.shortcode}/${i+1}.png`} width={500} height={333} alt="Girl with Magnifying Glass"/>
+                            <Typography variant="h6" my={2}>{q.text}</Typography>
+                                {/*if loading is true, show loading circle; if false, show quiz questions */}
+                                {loading
+                                    ? <Container
+                                        sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        flexDirection:'column',
+                                        alignItems:'center'
+                                        }}
+                                        >
+                                        <CircularProgress size={100}/>
+                                        <Typography variant='body1'>Loading your results...</Typography>
+                                        </Container>
+                                    : <Stack alignItems="stretch" spacing={2}>
+                                        {q.answers.map((a, index) => (
+                                            <Button variant="contained" key={a.text} onClick={()=>answer(index)}>{a.text}</Button>
+                                        ))
+                                        }
+                                        </Stack>
+                                }
+                            </Box>
+                        </Fade>
+                        ))}
+                    </Box>
 
                     <Typography marginTop={2} textAlign="center">{currentQIndex+1} of {quiz.questions.length}</Typography>
 
-
+                </Box>
             </Paper>
         </Container>
 
