@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,7 +17,52 @@ model Experience {
   publishedAt DateTime?
   status      ExperienceStatus
   type        ExperienceType
+  linkAddress String
+  linkText    String?
   quiz        Quiz?
+}
+
+model Quiz {
+  id           Int               @id @default(autoincrement())
+  experienceId Int               @unique
+  experience   Experience        @relation(fields: [experienceId], references: [id])
+  questions    Question[]
+  results      QuizResult[]
+  userAnswers  QuizUserAnswers[]
+}
+
+model Question {
+  id      Int      @id @default(autoincrement())
+  quizId  Int
+  text    String
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+  answers Answer[]
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  text       String
+  value      Int
+  question   Question @relation(fields: [questionId], references: [id])
+}
+
+model QuizResult {
+  id         Int    @id @default(autoincrement())
+  quizId     Int
+  min        Int
+  max        Int
+  text       String
+  shortLabel String
+  quiz       Quiz   @relation(fields: [quizId], references: [id])
+}
+
+model QuizUserAnswers {
+  id      Int   @id @default(autoincrement())
+  quizId  Int
+  answers Int[]
+  score   Int   @default(0)
+  quiz    Quiz  @relation(fields: [quizId], references: [id])
 }
 
 enum ExperienceStatus {
@@ -32,47 +74,4 @@ enum ExperienceStatus {
 
 enum ExperienceType {
   Quiz
-}
-
-model Quiz {
-  id           Int        @id @default(autoincrement())
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId Int        @unique
-  questions    Question[]
-  results      QuizResult[]
-  userAnswers  QuizUserAnswers[]
-}
-
-model Question {
-  id      Int      @id @default(autoincrement())
-  quiz    Quiz     @relation(fields: [quizId], references: [id])
-  quizId  Int
-  text    String
-  answers Answer[]
-}
-
-model Answer {
-  id         Int      @id @default(autoincrement())
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId Int
-  text       String
-  value      Int
-}
-
-model QuizResult {
-  id     Int    @id @default(autoincrement())
-  quiz   Quiz   @relation(fields: [quizId], references: [id])
-  quizId Int
-  min    Int
-  max    Int
-  shortLabel  String
-  text   String
-}
-
-model QuizUserAnswers {
-  id Int @id @default(autoincrement())
-  quiz Quiz @relation(fields: [quizId], references: [id])
-  quizId Int
-  answers Int[]
-  score Int @default(0)
 }

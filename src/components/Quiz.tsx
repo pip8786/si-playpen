@@ -19,9 +19,7 @@ export const Quiz = () => {
     const {currentQIndex, quiz, answerQuestion, answers, resetContext} = useContext(QuizContext);
     const [loading, setLoading] = useState(false);
     const el = useRef<HTMLDivElement | null>(null);
-    const otherEl = useRef<HTMLDivElement | null>(null);
     const {width, height} = useDimensionObserver(el);
-
 
     const answer = async (index: number) => {
 
@@ -83,7 +81,7 @@ export const Quiz = () => {
                             left: 0,
                             right: 0
                         }}>
-                            <Box p={6}>
+                            <Box p={4}>
                                 <Box sx={{display: "flex", justifyContent: "center"}}>
                                     <Image src={`/images/${experience.shortcode}/${i + 1}.png`} width={500} height={333}
                                            alt="Girl with Magnifying Glass"/>
@@ -102,7 +100,7 @@ export const Quiz = () => {
                                         <CircularProgress size={100}/>
                                         <Typography variant="body1">Loading your results...</Typography>
                                     </Container>
-                                    : <Stack ref={otherEl} alignItems="stretch" spacing={2}>
+                                    : <Stack alignItems="stretch" spacing={2}>
                                         {q.answers.map((a, index) => (
                                             <Button variant="contained" key={a.text}
                                                     onClick={() => answer(index)}>{a.text}</Button>
@@ -112,6 +110,7 @@ export const Quiz = () => {
                                                     textAlign="center">{currentQIndex + 1} of {quiz.questions.length}</Typography>
                                     </Stack>
                                 }
+                                
                             </Box>
 
                         </Box>
