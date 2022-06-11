@@ -25,10 +25,11 @@ export const QuizResults = () => {
 
     const [copyLinkTooltip, setCopyLinkTooltip] = useState("Copy Link");
 
-    const totalMin = quiz.questions.reduce((p, c) => p + c.answers.reduce((m, a) => Math.min(a.value, m), Number.MAX_SAFE_INTEGER), 0);
-    const totalPossible = quiz.questions.reduce((p, c) => p + c.answers.reduce((m, a) => Math.max(a.value, m), 0), 0);
-    const totalAnswered = results!.answers.reduce((t, a, i) => t + quiz.questions[i].answers[a].value, 0);
-    const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max);
+    const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
+    const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
+    const answerArray = JSON.parse(results!.answers).map((v:string) => Number(v)) as number[];
+    const totalAnswered = answerArray.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
+    const result = quiz.results.find(r => r.min <= totalAnswered && totalAnswered <= r.max );
 
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);

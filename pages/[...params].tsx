@@ -2,12 +2,16 @@ import * as React from 'react';
 import {GetServerSideProps, NextPage} from "next";
 import {ExperienceWithContent, getExperience} from "./api/experience/[shortcode]";
 import ExperienceContextProvider from "src/context/ExperienceContext";
-import {ExperienceType, QuizUserAnswers} from '@prisma/client';
+import {QuizUserAnswers} from '@prisma/client';
 import QuizContextProvider, {QuizSummary} from "src/context/QuizContext";
 import {Quiz} from "src/components/Quiz";
 import superjson from "superjson";
 import {prisma} from "src/util/db";
 import {QuizResults} from "../src/components/QuizResults";
+
+export enum ExperienceType {
+    Quiz = "Quiz"
+}
 
 
 type ExperiencePageProps = {
