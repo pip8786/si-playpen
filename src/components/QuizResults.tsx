@@ -2,13 +2,13 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import * as React from "react";
-import {useContext, useState} from "react";
-import {QuizContext} from "src/context/QuizContext";
+import { useContext, useState } from "react";
+import { QuizContext } from "src/context/QuizContext";
 import Gauge from "src/components/Gauge";
-import {ExperienceContext} from "src/context/ExperienceContext";
+import { ExperienceContext } from "src/context/ExperienceContext";
 import Summary from "./Summary";
-import {Box} from "@mui/system";
-import {IconButton, Tooltip} from "@mui/material";
+import { Box } from "@mui/system";
+import { IconButton, Tooltip } from "@mui/material";
 import LinkIcon from '@mui/icons-material/Link';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -16,10 +16,12 @@ import Link from './Link';
 import { HeadWithMeta } from './HeadWithMeta';
 import { LoadingIndicator } from 'src/components/LoadingIndicator';
 import { styled } from '@mui/material/styles'
+import exp from "constants";
+import { ExpandCircleDown } from "@mui/icons-material";
 
 export const QuizResults = () => {
-    const {quiz, results, summary} = useContext(QuizContext);
-    const {experience} = useContext(ExperienceContext);
+    const { quiz, results, summary } = useContext(QuizContext);
+    const { experience } = useContext(ExperienceContext);
 
     const [copyLinkTooltip, setCopyLinkTooltip] = useState("Copy Link");
 
@@ -32,7 +34,7 @@ export const QuizResults = () => {
     const onCopyClick = async () => {
         await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/${experience.shortcode}/${results!.id}`);
         setCopyLinkTooltip("Copied!");
-        setTimeout(()=>{
+        setTimeout(() => {
             setCopyLinkTooltip("Copy Link");
         }, 1000);
     };
@@ -56,85 +58,87 @@ export const QuizResults = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: 'center'
-        }}));
+        }
+    }));
 
     return (
         <Container
-                   sx={{
-                       maxWidth: {
-                        xs: 'xs',
-                        sm: 'sm',
-                        md: 'md',
-                        lg: 'md',
-                        xl: 'md'
-                       },
-                       my: 4,
-                       display: 'flex',
-                       flexDirection: 'column',
-                       justifyContent: 'center',
-                       alignItems: 'center',
-                   }}
+            sx={{
+                maxWidth: {
+                    xs: 'xs',
+                    sm: 'sm',
+                    md: 'md',
+                    lg: 'md',
+                    xl: 'md'
+                },
+                my: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
         >
-            <HeadWithMeta title={`Curiosity Score: ${totalAnswered} of ${totalPossible}`}/>
+            <HeadWithMeta title={`Curiosity Score: ${totalAnswered} of ${totalPossible}`} />
             <Typography variant="h2" component="h1" fontWeight={500}>{experience.name}</Typography>
             <Typography variant="h4" component="h2">{experience.subtitle}</Typography>
-            
+
             <Container maxWidth="md">
-            <Paper
-                elevation={3}
-                sx={{
-                    p:5,
-                    m:1
-                }}
-            >
+                <Paper
+                    elevation={3}
+                    sx={{
+                        p: 5,
+                        m: 1
+                    }}
+                >
 
-                <Gauge level={totalAnswered} max={totalPossible} min={totalMin}/>
+                    <Gauge level={totalAnswered} max={totalPossible} min={totalMin} />
 
-                {result && <Typography>{result.text}</Typography>}
-                {summary && <Summary {...summary}/>}
+                    {result && <Typography>{result.text}</Typography>}
+                    {summary && <Summary {...summary} />}
 
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "center"
-                }}>
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "center"
+                    }}>
 
-                    <Link href="https://www.sas.com/en_us/curiosity/at-work.html">Learn more about how curiosity is valued in the workplace.</Link>
-                </Box>
-                
-                <Box sx={{mt: 4}}>
-                    <BreakpointForBottomActions>
-                       <LoadingIndicator 
+                        <Link href={experience.linkAddress}>{experience.linkText}</Link>
+                    </Box>
+
+                    <Box sx={{ mt: 4 }}>
+                        <BreakpointForBottomActions>
+                            <LoadingIndicator
                                 loadingLabel={'Loading Quiz'}
                                 loadingPosition={'start'}
                                 variant={'text'}
                                 sx={{
-                                        height:'30px', 
-                                        width:'150px'}}>
+                                    height: '30px',
+                                    width: '150px'
+                                }}>
                                 <Link href="/curious" underline="hover">
-                                Retake Quiz
+                                    Retake Quiz
                                 </Link>
                             </LoadingIndicator>
 
-                    <Box sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                    }}>
-                        Share:
-                        <Tooltip title={copyLinkTooltip} placement="bottom">
-                            <IconButton onClick={onCopyClick}><LinkIcon/></IconButton>
-                        </Tooltip>
-                        <Tooltip title="Share on Twitter" placement="bottom">
-                            <IconButton onClick={onTwitterClick}><TwitterIcon/></IconButton>
-                        </Tooltip>
-                        <Tooltip title="Share on Facebook" placement="bottom">
-                            <IconButton onClick={onFacebookClick}><FacebookIcon/></IconButton>
-                        </Tooltip>
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center"
+                            }}>
+                                Share:
+                                <Tooltip title={copyLinkTooltip} placement="bottom">
+                                    <IconButton onClick={onCopyClick}><LinkIcon /></IconButton>
+                                </Tooltip>
+                                <Tooltip title="Share on Twitter" placement="bottom">
+                                    <IconButton onClick={onTwitterClick}><TwitterIcon /></IconButton>
+                                </Tooltip>
+                                <Tooltip title="Share on Facebook" placement="bottom">
+                                    <IconButton onClick={onFacebookClick}><FacebookIcon /></IconButton>
+                                </Tooltip>
+                            </Box>
+                        </BreakpointForBottomActions>
                     </Box>
-                    </BreakpointForBottomActions>
-                </Box>
 
-            </Paper>
+                </Paper>
             </Container>
         </Container>
     )

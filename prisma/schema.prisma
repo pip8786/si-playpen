@@ -19,6 +19,8 @@ model Experience {
   status      String
   type        String
   quiz        Quiz?
+  linkAddress String
+  linkText    String?
 
   @@map("EE_Experience")
 }

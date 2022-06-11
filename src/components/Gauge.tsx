@@ -39,8 +39,8 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 					<Box sx={{
 						mt: 2,
 						position: "relative",
-						width: `${segmentedCircleWidth}`, 
-						height: `${segmentedCircleHeight}`
+						width: segmentedCircleWidth, 
+						height: segmentedCircleHeight
 					}}>
 					
 					<SegmentedCircle innerRadius={segmentedCircleWidth*0.067} outerRadius={segmentedCircleHeight} spacing={Math.round(segmentedCircleWidth*0.00889)} />
@@ -52,7 +52,7 @@ export default function Gauge({level,max, min=0}:GaugeProps) {
 					transformOrigin: `${0.86144 * needleWidth}px ${0.5 * needleHeight}px`,
 					transform: `rotate(${degrees}deg)`,
 					transition: "transform 1s 250ms",
-					bottom: -5,
+					bottom: -10,
 					left: needleWidth/2
 					}}/>
 					</Box>
