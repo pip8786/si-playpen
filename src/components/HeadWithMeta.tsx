@@ -10,7 +10,8 @@ export const HeadWithMeta:React.FC<{title:string, children?:ReactNode}> = ({chil
 	if(results && results.answers.length) {
 		const totalMin = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.min(a.value,m), Number.MAX_SAFE_INTEGER), 0);
 		const totalPossible = quiz.questions.reduce((p,c) => p + c.answers.reduce((m, a) => Math.max(a.value,m), 0), 0);
-		const totalAnswered = results.answers.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
+		const answerArray = JSON.parse(results.answers).map((v:string) => Number(v)) as number[];
+		const totalAnswered = answerArray.reduce((t, a, i) => t+quiz.questions[i].answers[a].value,0);
 		metaTags = <>
 			<meta name="twitter:card" content="summary_large_image"/>
 			<meta name="twitter:site" content="@SASsoftware"/>

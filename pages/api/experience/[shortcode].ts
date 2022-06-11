@@ -45,7 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<ExperienceWithCo
             const result = await prisma.quizUserAnswers.create({
                 data: {
                     quizId: xp.quiz.id,
-                    answers: answers,
+                    answers: JSON.stringify(answers),
                     score
                 }
             });

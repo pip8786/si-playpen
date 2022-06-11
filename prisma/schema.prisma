@@ -1,78 +1,481 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
 model Experience {
-  id          Int              @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   subtitle    String
-  shortcode   String           @unique
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @default(now())
+  shortcode   String    @unique
+  createdAt   DateTime  @default(now(), map: "EE_Experience_createdAt_df")
+  updatedAt   DateTime  @default(now(), map: "EE_Experience_updatedAt_df")
   publishedAt DateTime?
-  status      ExperienceStatus
-  type        ExperienceType
+  status      String
+  type        String
   quiz        Quiz?
-}
 
-enum ExperienceStatus {
-  Pending
-  Published
-  Disabled
-  Retired
-}
-
-enum ExperienceType {
-  Quiz
+  @@map("EE_Experience")
 }
 
 model Quiz {
-  id           Int        @id @default(autoincrement())
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId Int        @unique
+  id           Int               @id @default(autoincrement())
+  experienceId Int               @unique
+  experience   Experience        @relation(fields: [experienceId], references: [id])
   questions    Question[]
   results      QuizResult[]
   userAnswers  QuizUserAnswers[]
+
+  @@map("EE_Quiz")
 }
 
 model Question {
   id      Int      @id @default(autoincrement())
-  quiz    Quiz     @relation(fields: [quizId], references: [id])
   quizId  Int
   text    String
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
   answers Answer[]
+
+  @@map("EE_Question")
 }
 
 model Answer {
   id         Int      @id @default(autoincrement())
-  question   Question @relation(fields: [questionId], references: [id])
   questionId Int
   text       String
   value      Int
+  question   Question @relation(fields: [questionId], references: [id])
+
+  @@map("EE_Answer")
 }
 
 model QuizResult {
-  id     Int    @id @default(autoincrement())
-  quiz   Quiz   @relation(fields: [quizId], references: [id])
-  quizId Int
-  min    Int
-  max    Int
-  shortLabel  String
-  text   String
+  id         Int    @id @default(autoincrement())
+  quizId     Int
+  min        Int
+  max        Int
+  shortLabel String
+  text       String
+  quiz       Quiz   @relation(fields: [quizId], references: [id])
+
+  @@map("EE_QuizResult")
 }
 
 model QuizUserAnswers {
-  id Int @id @default(autoincrement())
-  quiz Quiz @relation(fields: [quizId], references: [id])
-  quizId Int
-  answers Int[]
-  score Int @default(0)
+  id      Int    @id @default(autoincrement())
+  quizId  Int
+  /// JSON.stringify'd array
+  answers String
+  score   Int    @default(0, map: "EE_QuizUserAnswers_score_df")
+  quiz    Quiz   @relation(fields: [quizId], references: [id])
+
+  @@map("EE_QuizUserAnswers")
+}
+
+model Template {
+  id          Int             @id @default(autoincrement())
+  title       String?
+  description String?
+  createdAt   DateTime        @default(now(), map: "DF_Template_createdAt_df")
+  data        String          @db.VarChar(Max)
+  shortCode   String          @unique
+  uuid        String          @unique
+  parentId    Int?
+  groups      TemplateGroup[]
+
+  @@map("DF_Template")
+  @@ignore
+}
+
+model TemplateGroup {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  shortCode   String     @unique
+  isActive    Boolean    @default(true, map: "DF_TemplateGroup_isActive_df")
+  templates   Template[]
+
+  @@map("DF_TemplateGroup")
+  @@ignore
+}
+
+model DeviceIds {
+  id            Int       @id(map: "PK__DeviceId__3213E83FC53138B0") @default(autoincrement())
+  deviceToken   String?   @db.Char(64)
+  ownerId       Int?
+  active        Boolean?
+  registered_at DateTime? @default(now(), map: "DF__DeviceIds__regis__4222D4EF") @db.DateTime
+
+  @@ignore
+}
+
+model DistrictAgreement {
+  id                    Int       @id(map: "PK_DistrictAgreement") @default(autoincrement())
+  email                 String    @db.VarChar(100)
+  name                  String    @db.VarChar(100)
+  districtName          String?   @db.VarChar(100)
+  title                 String?   @db.VarChar(150)
+  phone                 String?   @db.VarChar(20)
+  state                 String?   @db.VarChar(30)
+  ssoDistrictID         Int?
+  verifyDate            DateTime? @db.DateTime
+  cpOrgID               Int?
+  signupCodeID          Int?
+  ltiConsumerInstanceID Int?
+  ltiConsumerID         Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model GIQ_NoticeData {
+  noticeId    Int?
+  keyName     String       @db.NVarChar(Max)
+  keyValue    String?      @db.NVarChar(Max)
+  GIQ_Notices GIQ_Notices? @relation(fields: [noticeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "GIQ_NoticeData_GIQ_Notices_id_fk")
+
+  @@ignore
+}
+
+model GIQ_Notices {
+  id             Int              @id(map: "GIQ_Notices_pk") @unique(map: "GIQ_Notices_id_uindex") @default(autoincrement())
+  product        Int
+  noticeType     String?          @db.NVarChar(32)
+  activeFlag     Boolean?         @default(false, map: "DF__GIQ_Notic__activ__2A164134")
+  activationDate DateTime?        @db.DateTime
+  expirationDate DateTime?        @db.DateTime
+  noticeText     String?          @db.NVarChar(512)
+  GIQ_NoticeData GIQ_NoticeData[]
+
+  @@ignore
+}
+
+model GIQ_TileAnswer {
+  deviceID       String?   @db.NVarChar(128)
+  answerText     String?   @db.VarChar(128)
+  answerIndex    Int?
+  timeSubmitted  DateTime? @default(now(), map: "DF__GIQ_TileA__timeS__282DF8C2") @db.DateTime
+  tileQuestionID Int?
+  id             Int       @id(map: "GIQ_TileAnswer_pk") @unique(map: "GIQ_TileAnswer_id_uindex") @default(autoincrement())
+
+  @@ignore
+}
+
+model GoogleAuthCredential {
+  userID       Int       @id(map: "PK_GoogleAuthCredentials")
+  refreshToken String?   @db.VarChar(256)
+  accessToken  String    @db.VarChar(256)
+  expireTime   DateTime? @db.DateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model IDPMetadata {
+  id             Int    @default(autoincrement())
+  metadataString String @db.VarChar(7000)
+  ssoOrgID       Int
+
+  @@ignore
+}
+
+model LoggedEvent {
+  id              Int               @id(map: "PK__LoggedEv__3213E83F567CD55D") @default(autoincrement())
+  type            String?           @db.VarChar(32)
+  timestamp       DateTime?         @default(now(), map: "DF__LoggedEve__times__47DBAE45") @db.DateTime
+  userAgent       String?           @db.VarChar(512)
+  ipAddress       String?           @db.VarChar(64)
+  LoggedEventData LoggedEventData[]
+
+  @@ignore
+}
+
+model LoggedEventData {
+  id          Int          @id(map: "PK__LoggedEv__3213E83F66A34740") @default(autoincrement())
+  event_id    Int?
+  dataKey     String?      @db.VarChar(128)
+  dataValue   String?      @db.VarChar(128)
+  LoggedEvent LoggedEvent? @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "event_ids_logged_events_id_fk")
+
+  @@ignore
+}
+
+model LTIConsumer {
+  id                  Int               @id(map: "PK_LTIConsumer") @default(autoincrement())
+  oauthKey            String            @db.VarChar(100)
+  oauthSecret         String            @db.VarChar(16)
+  defaultCPOrgID      Int
+  autoCreateInstances Boolean
+  vendorID            Int
+  active              Boolean           @default(true, map: "DF_LTIConsumer_active")
+  createDate          DateTime          @default(now(), map: "DF_LTIConsumer_createDate") @db.DateTime
+  consumerName        String?           @db.VarChar(100)
+  showEULAGate        Boolean           @default(false, map: "DF_LTIConsumer_showEULAGate")
+  isABCustomer        Boolean           @default(false, map: "DF_LTIConsumer_isABCustomer")
+  LTIConsumerVendor   LTIConsumerVendor @relation(fields: [vendorID], references: [id], onUpdate: NoAction, map: "FK_LTIConsumer_LTIConsumerVendor")
+  LTIConsumerOrg      LTIConsumerOrg[]
+
+  @@ignore
+}
+
+model LTIConsumerInstance {
+  id            Int       @id(map: "PK_LTIConsumerInstance") @default(autoincrement())
+  instanceGUID  String    @db.VarChar(250)
+  instanceName  String    @db.VarChar(250)
+  consumerID    Int
+  cpOrgID       Int
+  instanceType  String?   @db.VarChar(50)
+  instanceMode  String?   @db.VarChar(50)
+  consumerOrgID Int?
+  active        Boolean   @default(true, map: "DF_LTIConsumerInstance_active")
+  createDate    DateTime  @default(now(), map: "DF_LTIConsumerInstance_createDate") @db.DateTime
+  showEULAGate  Boolean?
+  LTIUser       LTIUser[]
+
+  @@ignore
+}
+
+model LTIConsumerOrg {
+  id              Int         @id(map: "PK_LTIConsumerOrg") @default(autoincrement())
+  consumerOrgGUID String?     @db.VarChar(50)
+  consumerID      Int
+  cpOrgID         Int
+  address         String?     @db.VarChar(300)
+  city            String?     @db.VarChar(50)
+  state           String      @db.Char(2)
+  zip             String?     @db.VarChar(10)
+  country         String?     @db.VarChar(30)
+  phone           String?     @db.VarChar(20)
+  district        String?     @db.VarChar(30)
+  contactName     String?     @db.VarChar(100)
+  contactEmail    String?     @db.VarChar(100)
+  createDate      DateTime    @default(now(), map: "DF_LTIConsumerOrg_createDate") @db.DateTime
+  consumerOrgName String?     @db.VarChar(150)
+  LTIConsumer     LTIConsumer @relation(fields: [consumerID], references: [id], onUpdate: NoAction, map: "FK_LTIConsumerOrg_LTIConsumer")
+
+  @@ignore
+}
+
+model LTIConsumerVendor {
+  id           Int           @id(map: "PK_LTIConsumerVendor") @default(autoincrement())
+  name         String        @db.VarChar(50)
+  contactName  String        @db.VarChar(100)
+  contactPhone String        @db.VarChar(50)
+  stylesheet   String?       @db.VarChar(50)
+  xmlFile      String?       @db.VarChar(50)
+  states       String?       @db.VarChar(175)
+  createDate   DateTime      @default(now(), map: "DF_LTIConsumerVendor_createDate") @db.DateTime
+  LTIConsumer  LTIConsumer[]
+
+  @@ignore
+}
+
+model LTIUser {
+  id                    Int                 @id(map: "PK_LTIUser") @default(autoincrement())
+  ltiConsumerInstanceID Int
+  ltiConsumerUserGUID   String              @db.VarChar(50)
+  cpUserID              Int
+  createDate            DateTime            @default(now(), map: "DF_LTIUser_createDate") @db.DateTime
+  ltiConsumerOrgID      Int?
+  LTIConsumerInstance   LTIConsumerInstance @relation(fields: [ltiConsumerInstanceID], references: [id], onUpdate: NoAction, map: "FK_LTIUser_LTIConsumerInstance")
+
+  @@ignore
+}
+
+model NCES {
+  id       Int    @id(map: "PK_NCES") @default(autoincrement())
+  fileType String @db.VarChar(5)
+  fileID   Int
+  name     String @db.NVarChar(200)
+  address  String @db.NVarChar(200)
+  city     String @db.NVarChar(100)
+  state    String @db.VarChar(2)
+  zip      String @db.VarChar(10)
+
+  @@ignore
+}
+
+model OAuthProvider {
+  id               Int     @id(map: "PK_OAuthProviders") @default(autoincrement())
+  codeEndpoint     String  @db.VarChar(100)
+  tokenEndpoint    String? @db.VarChar(200)
+  client_id        String  @db.VarChar(100)
+  client_secret    String  @db.VarChar(100)
+  idpSlug          String  @db.VarChar(10)
+  authProviderType Int?
+  scope            String? @db.VarChar(70)
+
+  @@ignore
+}
+
+model PicturePileEvent {
+  id             Int       @id(map: "PicturePileEvent_pk") @unique(map: "PicturePileEvent_id_uindex") @default(autoincrement())
+  eventCode      String    @unique(map: "PicturePileEvent_eventCode_uindex") @db.VarChar(32)
+  notes          String?   @db.VarChar(Max)
+  startDate      DateTime? @db.DateTime
+  completionDate DateTime? @db.DateTime
+
+  @@ignore
+}
+
+model PicturePileEventUser {
+  id               Int       @id(map: "PicturePileEventUser_pk") @unique(map: "PicturePileEventUser_id_uindex") @default(autoincrement())
+  deviceID         String    @db.VarChar(64)
+  email            String    @db.VarChar(Max)
+  nickname         String    @db.VarChar(Max)
+  code             String    @db.VarChar(32)
+  registrationDate DateTime? @default(now(), map: "DF__PicturePi__regis__40058253") @db.DateTime
+
+  @@ignore
+}
+
+model PicturePileRotation {
+  mediaID  Int      @unique(map: "PicturePileRotation_mediaID_uindex")
+  isSorted Boolean?
+
+  @@ignore
+}
+
+model PicturePileSubmission {
+  deviceID      String    @db.VarChar(64)
+  pileID        Int?
+  nwValue       Boolean?
+  nValue        Boolean?
+  neValue       Boolean?
+  wValue        Boolean?
+  centerValue   Boolean?
+  eValue        Boolean?
+  swValue       Boolean?
+  sValue        Boolean?
+  seValue       Boolean?
+  timeSubmitted DateTime? @default(now(), map: "DF__PicturePi__timeS__4E53A1AA") @db.DateTime
+  code          String?   @db.VarChar(32)
+  id            Int       @id(map: "PicturePileSubmission_pk") @default(autoincrement())
+
+  @@ignore
+}
+
+model SignupCode {
+  id         Int      @id(map: "PK_SignupCode") @default(autoincrement())
+  codeString String?  @db.VarChar(16)
+  codeType   Int?
+  activeFlag Boolean?
+
+  @@ignore
+}
+
+model SIOrg {
+  id         Int       @id(map: "PK_SIOrg") @default(autoincrement())
+  name       String    @db.VarChar(100)
+  parentID   Int?
+  dataType   String?   @db.VarChar(4)
+  dataID     Int?
+  type       String    @db.VarChar(4)
+  createDate DateTime? @db.DateTime
+  authorFlag Boolean   @default(false, map: "df_Org_authorFlag")
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model SIOrgData {
+  id         Int     @default(autoincrement())
+  address    String? @db.VarChar(300)
+  city       String? @db.VarChar(50)
+  state      String  @db.Char(2)
+  zip        String? @db.VarChar(10)
+  country    String? @db.VarChar(30)
+  phone      String? @db.VarChar(20)
+  district   String? @db.VarChar(30)
+  url        String? @db.VarChar(150)
+  enrollment Int?
+
+  @@ignore
+}
+
+model SIUser {
+  id                    Int       @id(map: "PK_SIUser") @default(autoincrement())
+  email                 String    @db.VarChar(100)
+  firstName             String?   @db.NVarChar(50)
+  lastName              String?   @db.NVarChar(50)
+  role                  String    @db.Char(1)
+  password              String?   @db.VarChar(128)
+  salt                  String?   @db.VarChar(64)
+  activeFlag            Boolean
+  authProviderType      Int?
+  authProviderToken     String?   @db.VarChar(128)
+  registerDate          DateTime  @db.DateTime
+  verifyDate            DateTime? @db.DateTime
+  verifyKey             String?   @db.VarChar(30)
+  loginAttemptCount     Int       @default(0, map: "DF_SIUser_loginAttemptCount")
+  parentFlag            Boolean   @default(false, map: "DF_SIUser_parentFlag")
+  orgID                 Int?
+  ltiConsumerInstanceID Int?
+  sendEmailFlag         Boolean
+  under16               Boolean   @default(false, map: "DF_SIUser_under16")
+
+  @@ignore
+}
+
+model SIUserData {
+  userID    Int
+  dataKey   String  @db.VarChar(50)
+  dataValue String? @db.VarChar(Max)
+
+  @@id([userID, dataKey], map: "SIUserData_pk")
+  @@ignore
+}
+
+model SIUserSignup {
+  userID       Int     @id(map: "PK_SIUserSignup")
+  parentEmail  String? @db.VarChar(100)
+  signupCodeID Int?
+
+  @@ignore
+}
+
+model SSOOrgData {
+  id                 Int       @id(map: "PK_SSOOrgData") @default(autoincrement())
+  ssoID              String    @db.VarChar(50)
+  ssoType            String    @db.NChar(3)
+  orgID              Int?
+  orgType            String?   @db.NChar(3)
+  updateURI          String?   @db.NChar(100)
+  ssoToken           String?   @db.NChar(120)
+  verifyDate         DateTime? @db.DateTime
+  pathwaysExternalID String?   @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model TeacherCode {
+  codeID        Int
+  teacherUserID Int
+  acceptDate    DateTime @db.DateTime
+
+  @@ignore
+}
+
+model UserActionRequest {
+  id         Int    @id(map: "PK_UserActionRequest") @default(autoincrement())
+  userID     Int
+  requestKey String @db.VarChar(50)
+
+  @@ignore
+}
+
+model VerificationRequest {
+  id               Int      @id(map: "PK_VerificationRequest") @default(autoincrement())
+  verificationKey  String   @db.VarChar(512)
+  verificationData String   @db.VarChar(1024)
+  dataHash         String   @db.VarChar(40)
+  createDate       DateTime @default(now(), map: "DF_VerificationRequest_createDate") @db.DateTime
+
+  @@ignore
 }
